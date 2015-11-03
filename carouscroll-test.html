@@ -67,10 +67,74 @@
 
   .jqcsx {
     position : relative;
-    width  : 250px;
-    height : 250px;
+    width  : 24.5rem;
+    height : 28.5rem ;
     border : 1px solid #666;
   }
+  .jqcsx-_head_ {
+    position : absolute;
+    top      : 0;
+    left     : 0;
+    right    : 0;
+    height   : 3rem;
+    line-height : 3rem;
+  }
+  .jqcsx-_head_main_,
+  .jqcsx-_head_inc_l_,
+  .jqcsx-_head_inc_r_ {
+    position : absolute;
+    top    : 0;
+    bottom : 0;
+  }
+  .jqcsx-_head_main_ {
+    left  : 2.5rem;
+    right : 2.5rem;
+    background-color: #faa;
+  }
+  .jqcsx-_head_inc_l_,
+  .jqcsx-_head_inc_r_ {
+    width  : 2.5rem;
+    font-size : 2rem;
+    background : #9af;
+  }
+  .jqcsx-_head_inc_l_ {
+    left       : 0;
+    padding-left : 0.5rem;
+    text-align : left;
+  }
+  .jqcsx-_head_inc_r_ {
+    right       : 0;
+    padding-right : 0.5rem;
+    text-align : right;
+  }
+  .jqcsx-_si_btm_,
+  .jqcsx-_si_top_ {
+    position   : absolute;
+    left       : 0;
+    right      : 0;
+    text-align : center;
+    height     : 1rem;
+    background : #888;
+    color      : #fff;
+  }
+  .jqcsx-_si_top_ {
+    top        : 3rem;
+  }
+  .jqcsx-_si_btm_ {
+    bottom : 0;
+  }
+  .jqcsx-_content_ {
+    position : absolute;
+    top : 4rem;
+    bottom : 1rem;
+    left : 0;
+    right : 0;
+    overflow-x : hidden;
+    overflow-y : auto;
+  }
+
+
+
 
   </style>
   <script
@@ -82,12 +146,44 @@
 </head>
 <body>
   <div class="jqcsx">
-    <div class="jqcsx-_head_inc_l_"></div>
-    <div class="jqcsx-_head_main_"></div>
-    <div class="jqcsx-_head_inc_r_"></div>
-    <div class="jqcsx-_si_top_"></div>
-    <div class="jqcsx-_content_"></div>
-    <div class="jqcsx-_si_btm_"></div>
+    <div class="jqcsx-_head_">
+      <div class="jqcsx-_head_inc_l_">&lt;</div>
+      <div class="jqcsx-_head_main_">
+        <div class="jqcsx-head-main-t1">Software</div>
+        <div class="jqcsx-head-main-t2">Hardware</div>
+        <div class="jqcsx-head-main-t3">Config</div>
+        <div class="jqcsx-head-main-t4">Summary</div>
+        <div class="jqcsx-head-main-t5">Health</div>
+        <div class="jqcsx-head-main-t6">Monitor</div>
+        <div class="jqcsx-head-main-t7">Contacts</div>
+      </div>
+      <div class="jqcsx-_head_inc_r_">&gt;</div>
+    </div>
+    <div class="jqcsx-_si_top_">xxx</div>
+    <div class="jqcsx-_content_">
+      <div class="jqcsx-_content_-h1">Summary</div>
+      <p>asdflkj asdflkjasd flakjf asfdlkkjasd 
+      lkjsad flkasjd faklfj asdlkfj aslkfj asfdlkj 
+      qwperoiferpoisdfa asdpoia sdfpasdoi fasdpasfdoi 
+      asdfdlkajsdf lkaj aselkfj aslkfj aslfkjas fas
+      zkmdfkpqwckpfok epf peofk ldmvlkvasd ;lmjg ef 
+      </p>
+      <div class="jqcsx-_content_-h2">Health</div>
+      <p>zkmdfkpqwckpfok epf peofk ldmvlkvasd ;lmjg ef 
+      lkjsad flkasjd faklfj asdlkfj aslkfj asfdlkj 
+      qwperoiferpoisdfa asdpoia sdfpasdoi fasdpasfdoi 
+      asdfdlkajsdf lkaj aselkfj aslkfj aslfkjas fas
+      zkmdfkpqwckpfok epf peofk ldmvlkvasd ;lmjg ef 
+      </p>
+      <div class="jqcsx-_content_-h3">Monitor</div>
+      <p>zkmdfkpqwckpfok epf peofk ldmvlkvasd ;lmjg ef 
+      lkjsad flkasjd faklfj asdlkfj aslkfj asfdlkj 
+      qwperoiferpoisdfa asdpoia sdfpasdoi fasdpasfdoi 
+      asdfdlkajsdf lkaj aselkfj aslkfj aslfkjas fas
+      zkmdfkpqwckpfok epf peofk ldmvlkvasd ;lmjg ef 
+      </p>
+    </div>
+    <div class="jqcsx-_si_btm_ jqcsx-_x_active_">xxx</div>
   </div>
 </body>
 </html>

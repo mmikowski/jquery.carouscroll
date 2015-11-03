@@ -1,0 +1,32 @@
+{
+  "name": "jquery.carouscroll.js",
+  "version": "0.1.0",
+  "description":"CarouScroll synchronizes the titles in a horizontal word-cloud Carousel with the associated headline positions in vertical scrolling content.  When the user scrolls the vertical content, the word-cloud carousel is adjusted so the correct title is selected.  Conversely, the user may browse through the word-cloud Carousel, in which case the scroll position of the content updates to match the selected title.",
+  "keywords": [ "carousel", "carouscroll", "scroll" ],
+  "main": "jquery.carouscroll.js",
+  "scripts": {
+    "test": "echo \"See carouscroll-test.html\" && exit 0;"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mmikowski/jquery.carouscroll.git"
+  },
+  "author": "Michael S. Mikowski <mike.mikowski@gmail.com>",
+  "license": "GPLv2",
+  "bugs": {
+    "url": "https://github.com/mmikowski/jquery.carouscroll/issues"
+  },
+  "homepage": "https://github.com/mmikowski/jquery.carouscroll",
+  "dependencies": { "jquery": ">=1.7.0" },
+
+  "title": "CarouScroll",
+  "licenses": [
+    { "type": "MIT",
+      "url": "https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt"
+    },
+    { "type": "GPLv2",
+      "url": "http://www.gnu.org/licenses/gpl-2.0.html"
+    }
+  ],
+  "maintainers": [ "Michael S. Mikowski <mike.mikowski@gmail.com>" ]
+}

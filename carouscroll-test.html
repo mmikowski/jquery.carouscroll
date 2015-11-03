@@ -87,13 +87,13 @@
     bottom : 0;
   }
   .jqcsx-_head_main_ {
-    left  : 2.5rem;
-    right : 2.5rem;
+    left  : 2rem;
+    right : 2rem;
     background-color: #faa;
   }
   .jqcsx-_head_inc_l_,
   .jqcsx-_head_inc_r_ {
-    width  : 2.5rem;
+    width  : 2rem;
     font-size : 2rem;
     background : #9af;
   }
@@ -133,9 +133,82 @@
     overflow-y : auto;
   }
 
+  .jqcsx-_head_main_t_-1,
+  .jqcsx-_head_main_t_-7 {
+    position : absolute;
+    top     : 0;
+    height  : 3rem;
+    width : 15%;
+    overflow: hidden;
+    opacity : .25;
+    font-weight : 200;
+    font-size : 1rem;
+    z-index : 0;
+  }
+  .jqcsx-_head_main_t_-1 {
+    left : 0;
+    text-align : left;
+  }
+  .jqcsx-_head_main_t_-7 {
+    right : 0;
+    text-align : right;
+  }
 
+  .jqcsx-_head_main_t_-2,
+  .jqcsx-_head_main_t_-6 {
+    position : absolute;
+    top     : 0;
+    height  : 3rem;
+    width : 15%;
+    overflow: hidden;
+    opacity : .5;
+    font-weight : 400;
+    font-size : 1.25rem;
+    z-index : 1;
+  }
+  .jqcsx-_head_main_t_-2 {
+    left : 5%;
+    text-align : left;
+  }
+  .jqcsx-_head_main_t_-6 {
+    right : 5%;
+    text-align : right;
+  }
 
+  .jqcsx-_head_main_t_-3,
+  .jqcsx-_head_main_t_-5 {
+    position : absolute;
+    top     : 0;
+    height  : 3rem;
+    width : 15%;
+    overflow: hidden;
+    opacity     : .75;
+    font-weight : 600;
+    font-size   : 1.75rem;
+    z-index : 2;
+  }
+  .jqcsx-_head_main_t_-3 {
+    left : 10%;
+    text-align : left;
+  }
+  .jqcsx-_head_main_t_-5 {
+    right : 10%;
+    text-align : right;
+  }
 
+  .jqcsx-_head_main_t_-4 {
+    position : absolute;
+    left     : 50%;
+    margin-left: -30%;
+    width    : 60%;
+    top     : 0;
+    height  : 3rem;
+    opacity     : 1;
+    font-weight : 800;
+    font-size   : 2.2rem;
+    text-align : center;
+    z-index : 3;
+  }
   </style>
   <script
     src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"
@@ -149,13 +222,13 @@
     <div class="jqcsx-_head_">
       <div class="jqcsx-_head_inc_l_">&lt;</div>
       <div class="jqcsx-_head_main_">
-        <div class="jqcsx-head-main-t1">Software</div>
-        <div class="jqcsx-head-main-t2">Hardware</div>
-        <div class="jqcsx-head-main-t3">Config</div>
-        <div class="jqcsx-head-main-t4">Summary</div>
-        <div class="jqcsx-head-main-t5">Health</div>
-        <div class="jqcsx-head-main-t6">Monitor</div>
-        <div class="jqcsx-head-main-t7">Contacts</div>
+        <div class="jqcsx-_head_main_t_-1">Software</div>
+        <div class="jqcsx-_head_main_t_-2">Hardware</div>
+        <div class="jqcsx-_head_main_t_-3">Config</div>
+        <div class="jqcsx-_head_main_t_-4">Summary</div>
+        <div class="jqcsx-_head_main_t_-5">Health</div>
+        <div class="jqcsx-_head_main_t_-6">Monitor</div>
+        <div class="jqcsx-_head_main_t_-7">Contacts</div>
       </div>
       <div class="jqcsx-_head_inc_r_">&gt;</div>
     </div>

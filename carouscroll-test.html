@@ -78,6 +78,7 @@
     right    : 0;
     height   : 3rem;
     line-height : 3rem;
+    background-color: #faa;
   }
   .jqcsx-_head_main_,
   .jqcsx-_head_inc_l_,
@@ -87,26 +88,19 @@
     bottom : 0;
   }
   .jqcsx-_head_main_ {
-    left  : 2rem;
-    right : 2rem;
-    background-color: #faa;
+    left  : 1.5rem;
+    right : 1.5rem;
   }
   .jqcsx-_head_inc_l_,
   .jqcsx-_head_inc_r_ {
-    width  : 2rem;
-    font-size : 2rem;
-    background : #9af;
+    width      : 1.5rem;
+    font-size  : 1.5rem;
+    text-align : center;
+    cursor : pointer;
   }
-  .jqcsx-_head_inc_l_ {
-    left       : 0;
-    padding-left : 0.5rem;
-    text-align : left;
-  }
-  .jqcsx-_head_inc_r_ {
-    right       : 0;
-    padding-right : 0.5rem;
-    text-align : right;
-  }
+  .jqcsx-_head_inc_l_ { left  : 0; }
+  .jqcsx-_head_inc_r_ { right : 0; }
+
   .jqcsx-_si_btm_,
   .jqcsx-_si_top_ {
     position   : absolute;
@@ -123,7 +117,7 @@
   .jqcsx-_si_btm_ {
     bottom : 0;
   }
-  .jqcsx-_content_ {
+  .jqcsx-_box_ {
     position : absolute;
     top : 4rem;
     bottom : 1rem;
@@ -132,71 +126,88 @@
     overflow-x : hidden;
     overflow-y : auto;
   }
+  .jqcsx-_box_ h1 {
+    padding : 0 2rem;
+    margin  : .5rem 0 .5rem 0;
+  }
+  .jqcsx-_box_ p {
+    padding : 0 2rem;
+    margin  : .5rem 0 .5rem 0;
+  }
 
-  .jqcsx-_head_main_t_-1,
-  .jqcsx-_head_main_t_-7 {
+  .jqcsx-_head_main_ .jqcsx-x-t0,
+  .jqcsx-_head_main_ .jqcsx-x-t6 {
     position : absolute;
     top     : 0;
     height  : 3rem;
     width : 15%;
     overflow: hidden;
-    opacity : .25;
+    opacity : .2;
     font-weight : 200;
     font-size : 1rem;
     z-index : 0;
+    /* background: rgba( 255, 255, 255, .4 ); */
+    transition : all 0.35s ease;
   }
-  .jqcsx-_head_main_t_-1 {
+  .jqcsx-_head_main_ .jqcsx-x-t0 {
     left : 0;
     text-align : left;
   }
-  .jqcsx-_head_main_t_-7 {
+  .jqcsx-_head_main_ .jqcsx-x-t6 {
     right : 0;
     text-align : right;
+    direction : rtl;
   }
 
-  .jqcsx-_head_main_t_-2,
-  .jqcsx-_head_main_t_-6 {
+  .jqcsx-_head_main_ .jqcsx-x-t1,
+  .jqcsx-_head_main_ .jqcsx-x-t5 {
     position : absolute;
     top     : 0;
     height  : 3rem;
-    width : 15%;
+    width   : 20%;
     overflow: hidden;
-    opacity : .5;
+    opacity : .3;
     font-weight : 400;
     font-size : 1.25rem;
     z-index : 1;
+    /* background: rgba( 255, 255, 255, .6 ); */
+    transition : all 0.35s ease;
   }
-  .jqcsx-_head_main_t_-2 {
+  .jqcsx-_head_main_ .jqcsx-x-t1 {
     left : 5%;
     text-align : left;
   }
-  .jqcsx-_head_main_t_-6 {
+  .jqcsx-_head_main_ .jqcsx-x-t5 {
     right : 5%;
     text-align : right;
+    direction : rtl;
   }
 
-  .jqcsx-_head_main_t_-3,
-  .jqcsx-_head_main_t_-5 {
+  .jqcsx-_head_main_ .jqcsx-x-t2,
+  .jqcsx-_head_main_ .jqcsx-x-t4 {
     position : absolute;
     top     : 0;
     height  : 3rem;
-    width : 15%;
+    width : 25%;
     overflow: hidden;
-    opacity     : .75;
+    opacity     : .5;
     font-weight : 600;
     font-size   : 1.75rem;
     z-index : 2;
+    /* background: rgba( 255, 255, 255, .8 ); */
+    transition : all 0.35s ease;
   }
-  .jqcsx-_head_main_t_-3 {
+  .jqcsx-_head_main_ .jqcsx-x-t2 {
     left : 10%;
     text-align : left;
   }
-  .jqcsx-_head_main_t_-5 {
+  .jqcsx-_head_main_ .jqcsx-x-t4 {
     right : 10%;
     text-align : right;
+    direction : rtl;
   }
 
-  .jqcsx-_head_main_t_-4 {
+  .jqcsx-_head_main_ .jqcsx-x-t3 {
     position : absolute;
     left     : 50%;
     margin-left: -30%;
@@ -208,6 +219,9 @@
     font-size   : 2.2rem;
     text-align : center;
     z-index : 3;
+    color : #fff;
+    /* background: rgba( 255, 255, 255, 1 );*/
+    transition : all 0.35s ease;
   }
   </style>
   <script
@@ -215,6 +229,74 @@
   ></script>
   <!-- script src="jquery.carouscroll.js"></script -->
   <script>
+  $(function () {
+    'use strict';
+    var
+      divOffsetInt = 0,
+      $headDivList = $( '.jqcsx-_head_main_ > div' ),
+      $box         = $( '.jqcsx-_box_' ),
+      $sectionList = $box.children( 'h1' ),
+      divCount     = $headDivList.length,
+
+      moveDivs
+      ;
+
+    moveDivs = function ( inc_int ) {
+
+      var i, orig_int, next_int, orig_class_str,
+        next_class_str, offset_map, scroll_num;
+
+      for ( i = 0; i < divCount; i++ ) {
+
+        // get orig class string
+        orig_int = i + divOffsetInt;
+        console.warn( divCount, divOffsetInt, orig_int );
+        if ( orig_int >= divCount ) { orig_int -= divCount; }
+        else if ( orig_int < 0 ) { orig_int += divCount; }
+        orig_class_str = 'jqcsx-x-t' + String( orig_int );
+
+        // get next class string
+        if ( inc_int !== 0 ) {
+
+          next_int = i + divOffsetInt + inc_int;
+
+          if ( next_int >= divCount ) { next_int -= divCount; }
+          else if ( next_int < 0 ) { next_int += divCount; }
+          next_class_str = 'jqcsx-x-t' + String( next_int );
+
+          if ( next_int === 3 ) {
+            console.warn( divOffsetInt );
+          }
+        }
+        // if there is no change, just set to orig_class
+        else {
+          next_class_str = orig_class_str;
+          orig_class_str = '';
+        }
+
+        // now update the classes
+        $headDivList.eq( i )
+          .addClass( next_class_str )
+          .removeClass( orig_class_str );
+      }
+      
+      // Increment offset for next round
+      divOffsetInt += inc_int;
+      if ( divOffsetInt >= divCount ) { divOffsetInt -= divCount }
+      else if ( divOffsetInt < 0 ) { divOffsetInt += divCount }
+    };
+
+    moveDivs( 0 );
+
+    $('.jqcsx-_head_inc_l_' ).on( 'click', function ( /*event_obj */ ){
+      moveDivs( 1 );
+    });
+
+    $('.jqcsx-_head_inc_r_' ).on( 'click', function ( /*event_obj */ ){
+      moveDivs( -1 );
+    });
+
+  });
   </script>
 </head>
 <body>
@@ -222,38 +304,38 @@
     <div class="jqcsx-_head_">
       <div class="jqcsx-_head_inc_l_">&lt;</div>
       <div class="jqcsx-_head_main_">
-        <div class="jqcsx-_head_main_t_-1">Software</div>
-        <div class="jqcsx-_head_main_t_-2">Hardware</div>
-        <div class="jqcsx-_head_main_t_-3">Config</div>
-        <div class="jqcsx-_head_main_t_-4">Summary</div>
-        <div class="jqcsx-_head_main_t_-5">Health</div>
-        <div class="jqcsx-_head_main_t_-6">Monitor</div>
-        <div class="jqcsx-_head_main_t_-7">Contacts</div>
+        <div>Software</div>
+        <div>Hardware</div>
+        <div>Config</div>
+        <div>Summary</div>
+        <div>Health</div>
+        <div>Monitor</div>
+        <div>Contacts</div>
       </div>
       <div class="jqcsx-_head_inc_r_">&gt;</div>
     </div>
     <div class="jqcsx-_si_top_">xxx</div>
-    <div class="jqcsx-_content_">
-      <div class="jqcsx-_content_-h1">Summary</div>
-      <p>asdflkj asdflkjasd flakjf asfdlkkjasd 
-      lkjsad flkasjd faklfj asdlkfj aslkfj asfdlkj 
-      qwperoiferpoisdfa asdpoia sdfpasdoi fasdpasfdoi 
+    <div class="jqcsx-_box_">
+      <h1>Summary</h1>
+      <p>asdflkj asdflkjasd flakjf asfdlkkjasd
+      lkjsad flkasjd faklfj asdlkfj aslkfj asfdlkj
+      qwperoiferpoisdfa asdpoia sdfpasdoi fasdpasfdoi
       asdfdlkajsdf lkaj aselkfj aslkfj aslfkjas fas
-      zkmdfkpqwckpfok epf peofk ldmvlkvasd ;lmjg ef 
+      zkmdfkpqwckpfok epf peofk ldmvlkvasd ;lmjg ef
       </p>
-      <div class="jqcsx-_content_-h2">Health</div>
-      <p>zkmdfkpqwckpfok epf peofk ldmvlkvasd ;lmjg ef 
-      lkjsad flkasjd faklfj asdlkfj aslkfj asfdlkj 
-      qwperoiferpoisdfa asdpoia sdfpasdoi fasdpasfdoi 
+      <h1>Health</h1>
+      <p>zkmdfkpqwckpfok epf peofk ldmvlkvasd ;lmjg ef
+      lkjsad flkasjd faklfj asdlkfj aslkfj asfdlkj
+      qwperoiferpoisdfa asdpoia sdfpasdoi fasdpasfdoi
       asdfdlkajsdf lkaj aselkfj aslkfj aslfkjas fas
-      zkmdfkpqwckpfok epf peofk ldmvlkvasd ;lmjg ef 
+      zkmdfkpqwckpfok epf peofk ldmvlkvasd ;lmjg ef
       </p>
-      <div class="jqcsx-_content_-h3">Monitor</div>
-      <p>zkmdfkpqwckpfok epf peofk ldmvlkvasd ;lmjg ef 
-      lkjsad flkasjd faklfj asdlkfj aslkfj asfdlkj 
-      qwperoiferpoisdfa asdpoia sdfpasdoi fasdpasfdoi 
+      <h1>Monitor</h1>
+      <p>zkmdfkpqwckpfok epf peofk ldmvlkvasd ;lmjg ef
+      lkjsad flkasjd faklfj asdlkfj aslkfj asfdlkj
+      qwperoiferpoisdfa asdpoia sdfpasdoi fasdpasfdoi
       asdfdlkajsdf lkaj aselkfj aslkfj aslfkjas fas
-      zkmdfkpqwckpfok epf peofk ldmvlkvasd ;lmjg ef 
+      zkmdfkpqwckpfok epf peofk ldmvlkvasd ;lmjg ef
       </p>
     </div>
     <div class="jqcsx-_si_btm_ jqcsx-_x_active_">xxx</div>

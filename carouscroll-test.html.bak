@@ -147,13 +147,12 @@
     height   : 3rem;
     overflow : hidden;
 
-    transition : all 0.5s ease;
+    transition : all 0.25s ease;
   }
 
 
   .jqcsx-_head_main_ .jqcsx-x-t0,
   .jqcsx-_head_main_ .jqcsx-x-t6 {
-    display :none;
     width       : 15%;
     opacity     : .3;
     font-weight : 200;
@@ -172,44 +171,38 @@
 
   .jqcsx-_head_main_ .jqcsx-x-t1,
   .jqcsx-_head_main_ .jqcsx-x-t5 {
-    width       : 15%;
-    opacity     : .3;
-    font-weight : 200;
-    font-size   : 1rem;
+    width       : 20%;
+    opacity     : .4;
+    font-weight : 400;
+    font-size   : 1.2rem;
     color       : #fff;
-    z-index     : 0;
+    z-index     : 1;
 
   }
   .jqcsx-_head_main_ .jqcsx-x-t1 {
-    left       : 0;
+    left       : 5%;
     text-align : left;
   }
   .jqcsx-_head_main_ .jqcsx-x-t5 {
-    right      : 0;
+    right      : 5%;
     text-align : right;
     direction  : rtl;
   }
 
   .jqcsx-_head_main_ .jqcsx-x-t2,
   .jqcsx-_head_main_ .jqcsx-x-t4 {
-    width       : 20%;
-    opacity     : .4;
-    font-weight : 400;
-    font-size   : 1.2rem;
-    z-index     : 1;
-
-    /* width       : 25%;
+    width       : 25%;
     opacity     : .5;
     font-weight : 400;
     font-size   : 1.4rem;
-    z-index     : 2; */
+    z-index     : 2;
   }
   .jqcsx-_head_main_ .jqcsx-x-t2 {
-    left       : 5%;
+    left       : 10%;
     text-align : left;
   }
   .jqcsx-_head_main_ .jqcsx-x-t4 {
-    right      : 5%;
+    right      : 10%;
     text-align : right;
     direction  : rtl;
   }

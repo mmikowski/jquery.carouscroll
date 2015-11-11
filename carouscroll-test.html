@@ -89,15 +89,16 @@
     bottom   : 0;
   }
   .jqcsx-_head_main_ {
-    left  : 1.5rem;
-    right : 1.5rem;
+    left   : 0.5rem;
+    right  : 0.5rem;
+    cursor : ew-resize;
   }
   .jqcsx-_head_inc_l_,
   .jqcsx-_head_inc_r_ {
     width      : 1.5rem;
     font-size  : 1.5rem;
     text-align : center;
-    cursor     : pointer;
+    cursor : pointer;
   }
   .jqcsx-_head_inc_l_ { left  : 0; }
   .jqcsx-_head_inc_r_ { right : 0; }
@@ -227,6 +228,7 @@
   <script
     src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"
   ></script>
+  <script src="../jquery.event.ue/jquery.event.ue.js"></script>
   <!-- script src="jquery.carouscroll.js"></script -->
   <script>
   $(function () {
@@ -250,7 +252,12 @@
       changeTitle,
       syncToScroll,
 
-      onClickIncL, onClickIncR, onScrollBox,
+      onDragstartMain,
+      onDragmoveMain,
+      onDragendMain,
+      onScrollBox,
+      onTapIncL,
+      onTapIncR,
 
       initModule
       ;
@@ -378,16 +385,25 @@
     };
     // END syncToScroll
 
-    onClickIncL = function ( /*event_obj*/ ) {
-      changeTitle( 1 );
+    onDragstartMain = function ( event_obj ) {
+      // console.warn( 'start', event_obj );
     };
-
-    onClickIncR = function ( /*event_obj*/ ){
-      changeTitle( -1 );
+    onDragmoveMain = function ( event_obj ) {
+      var delta_px = event_obj.px_start_x - event_obj.px_current_x;
+    };
+    onDragendMain = function ( event_obj ) {
+      // console.warn( 'end', event_obj );
     };
 
     onScrollBox = function ( /*event_obj*/ ){
       syncToScroll();
+    };
+
+    onTapIncL = function ( /*event_obj*/ ) {
+      changeTitle( 1 );
+    };
+    onTapIncR = function ( /*event_obj*/ ){
+      changeTitle( -1 );
     };
 
     // BEGIN initModule
@@ -427,8 +443,13 @@
 
     initModule();
 
-    jMap._$head_inc_l_.on( 'click', onClickIncL );
-    jMap._$head_inc_r_.on( 'click', onClickIncR );
+    jMap._$head_inc_l_.on( 'utap', onTapIncL );
+    jMap._$head_inc_r_.on( 'utap', onTapIncR );
+    jMap._$head_main_
+      .on( 'udragstart', onDragstartMain )
+      .on( 'udragmove',  onDragmoveMain  )
+      .on( 'udragend',   onDragendMain   );
+
     jMap._$scroll_box_.on( 'scroll', onScrollBox );
 
   });
@@ -437,7 +458,6 @@
 <body>
   <div class="jqcsx">
     <div class="jqcsx-_head_">
-      <div class="jqcsx-_head_inc_l_">&lt;</div>
       <div class="jqcsx-_head_main_">
         <div>Software</div>
         <div>Hardware</div>
@@ -447,7 +467,8 @@
         <div>Monitor</div>
         <div>Contacts</div>
       </div>
-      <div class="jqcsx-_head_inc_r_">&gt;</div>
+      <div class="jqcsx-_head_inc_l_"></div>
+      <div class="jqcsx-_head_inc_r_"></div>
     </div>
     <div class="jqcsx-_si_top_">^^^</div>
     <div class="jqcsx-_box_">

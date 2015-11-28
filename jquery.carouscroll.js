@@ -313,15 +313,9 @@
     changeTitle,
     syncToScroll,
 
-    onDragstartMain,
-    onDragmoveMain,
-    onDragendMain,
-    onScrollBox,
-    onTapIncL,
-    onTapIncR,
-
     changeContentOne,
-    createOne
+    createOne,
+    invokeWrapper
     ;
   // =================== END MODULE SCOPE VARIABLES ====================
 
@@ -347,11 +341,8 @@
     };
   };
 
-  updateScrollIndicators = function ( scroll_num ) {
-    var
-      state_map  = this,
-      jquery_map = state_map._jquery_map_
-      ;
+  updateScrollIndicators = function ( state_map, scroll_num ) {
+    var jquery_map = state_map._jquery_map_;
 
     jquery_map._$si_top_.toggleClass(
       'jqcsx-_x_active_',
@@ -363,12 +354,13 @@
     );
   };
 
-  changeTitle = function ( inc_int, do_skip_scroll ) {
+  changeTitle = function ( state_map, inc_int, do_skip_scroll ) {
     var
-      state_map        = this,
       jquery_map       = state_map._jquery_map_,
+
       $head_title_list = jquery_map._$head_title_list_,
       $sect_list       = jquery_map._$sect_list_,
+
       sect_top_list    = state_map._sect_top_list,
       title_count      = state_map._title_count_,
       title_offset_int = state_map._title_offset_int_,
@@ -426,9 +418,8 @@
   // END changeTitle
 
   // BEGIN syncToScroll
-  syncToScroll = function () {
+  syncToScroll = function ( state_map ) {
     var
-      state_map     = this,
       jquery_map    = state_map._jquery_map_,
       sect_top_list = state_map._sect_top_list_,
       title_count   = state_map._title_count_,
@@ -458,39 +449,12 @@
 
     // update title, WITHOUT scroll-to
     state_map._title_idx_ = prelim_idx;
-    changeTitle( title_idx - prelim_idx, __true );
+    changeTitle( state_map, title_idx - prelim_idx, __true );
   };
   // END syncToScroll
   // ======================== END DOM METHODS ==========================
 
   // ====================== BEGIN EVENT HANDLERS =======================
-  onDragstartMain = function ( event_obj ) {
-    // TODO: Replace with jquery.event.dragscroll
-    console.warn( 'start', event_obj );
-  };
-  onDragmoveMain = function ( event_obj ) {
-    // TODO: Replace with jquery.event.dragscroll
-    var delta_px = event_obj.px_start_x - event_obj.px_current_x;
-    console.warn( delta_px );
-  };
-  onDragendMain = function ( event_obj ) {
-    // TODO: Replace with jquery.event.dragscroll
-    console.warn( 'end', event_obj );
-  };
-
-  onScrollBox = function ( /*event_obj*/ ) {
-    // TODO: Throttle this
-    syncToScroll();
-  };
-
-  onTapIncL = function ( /*event_obj*/ ) {
-    // TODO: Replace with jquery.event.dragscroll
-    changeTitle( 1 );
-  };
-  onTapIncR = function ( /*event_obj*/ ) {
-    // TODO: Replace with jquery.event.dragscroll
-    changeTitle( -1 );
-  };
   // ======================= END EVENT HANDLERS ========================
 
   // ====================== BEGIN PUBLIC METHODS =======================
@@ -573,37 +537,62 @@
       - head_ht_px
       ;
 
-    changeTitle( __0 );
+    changeTitle( state_map, __0 );
 
-    jquery_map._$head_inc_l_.on( 'utap', onTapIncL );
-    jquery_map._$head_inc_r_.on( 'utap', onTapIncR );
+    state_map._on_dragstart_main_ = function ( event_obj ) {
+      // TODO: Replace with jquery.event.dragscroll
+      console.warn( 'start', event_obj );
+    };
+    state_map._on_dragmove_main_ = function ( event_obj ) {
+      // TODO: Replace with jquery.event.dragscroll
+      var delta_px = event_obj.px_start_x - event_obj.px_current_x;
+      console.warn( delta_px );
+    };
+    state_map._on_dragend_main_ = function ( event_obj ) {
+      // TODO: Replace with jquery.event.dragscroll
+      console.warn( 'end', event_obj );
+    };
+    state_map._on_box_scroll_ = function ( /*event_obj*/ ) {
+      // TODO: Throttle this
+      syncToScroll( state_map );
+    };
+
+    state_map._on_tap_l_ = function ( /*event_obj*/ ) {
+      // TODO: Replace with jquery.event.dragscroll
+      changeTitle( state_map, 1 );
+    };
+    state_map._on_tap_r_ = function ( /*event_obj*/ ) {
+      // TODO: Replace with jquery.event.dragscroll
+      changeTitle( state_map, -1 );
+    };
+
+    jquery_map._$head_inc_l_.on( 'utap', state_map._on_tap_l_ );
+    jquery_map._$head_inc_r_.on( 'utap', state_map._on_tap_r_ );
     jquery_map._$head_main_
-      .on( 'udragstart', onDragstartMain )
-      .on( 'udragmove',  onDragmoveMain  )
-      .on( 'udragend',   onDragendMain   );
+      .on( 'udragstart', state_map._on_dragstart_main_ )
+      .on( 'udragmove',  state_map._on_dragmove_main_  )
+      .on( 'udragend',   state_map._on_dragend_main_   );
 
-    jquery_map._$scroll_box_.on( 'scroll', onScrollBox );
+    jquery_map._$scroll_box_.on( 'scroll', state_map.on_box_scroll );
   };
   // END createOne
 
+  invokeWrapper = function ( $jqcsx_list, arg_map, invokeFn ) {
+    $jqcsx_list.each( function ( idx ) {
+      var
+        $jqcsx_one = $jqcsx_list.eq( idx ),
+        state_map  = $jqcsx_one.data( 'jqcsx-state-map' );
+      invokeFn( state_map, arg_map, $jqcsx_list.eq( idx ) );
+    });
+    return $jqcsx_list;
+  };
+
   $.fn.carascroll = {
     create : function ( arg_map ) {
-      var $jqcsx_list   = this;
-
-      $jqcsx_list.each( function ( idx ) {
-        createOne( arg_map, $jqcsx_list.eq( idx ) );
-      });
-      return $jqcsx_list;
+      return invokeWrapper( this, arg_map, createOne );
     },
     changeContent : function( arg_map ) {
-      var $jqcsx_list   = this;
-
-      $jqcsx_list.each(function ( idx ) {
-        var
-          $jqcsx_one = $jqcsx_list.eq( idx ),
-          state_map  = $jqcsx_one.data( 'jqcsx-state-map' );
-        changeContentOne.call( state_map, $jqcsx_one, arg_map );
-      });
+      return invokeWrapper( this, arg_map, changeContentOne );
     }
   };
   // ======================= END PUBLIC METHODS ========================

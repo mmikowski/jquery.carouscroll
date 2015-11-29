@@ -459,9 +459,8 @@
 
   // ====================== BEGIN PUBLIC METHODS =======================
   // BEGIN createOne
-  changeContentOne = function ( $one_div, arg_map ) {
+  changeContentOne = function ( $one_div, arg_map, state_map ) {
     var
-      state_map  = this,
       jquery_map = state_map._jquery_map_,
 
       $scroll_box      = jquery_map._$scroll_box_,
@@ -474,7 +473,7 @@
       $sect_list, i
       ;
 
-    jquery_map._$scroll_box_.html( arg_map.content_html );
+    $scroll_box.html( arg_map.content_html );
     $sect_list = $scroll_box.children( 'h1' );
 
     $sect_list.each( function( idx /*, el*/ ) {
@@ -490,26 +489,31 @@
     for ( i = __0; i < label_count; i++ ) {
       $head_title_list.eq( i ).html( label_list[ i ] );
     }
-    state_map._sect_top_list = sect_top_list;
+
+    // Update state map
+    jquery_map._$sect_list_   = $sect_list;
+    state_map._sect_top_list_ = sect_top_list;
   };
 
-  createOne = function ( $one_div, arg_map ) {
+  createOne = function ( $one_div, arg_map, in_state_map ) {
     var
-      state_map = {
-        _jquery_map_       : {},
-        _is_our_scroll_    : __false,
-        _scroll_min_num_   : __0,
-        _scroll_max_num_   : 9999,
-        _sect_top_list_    : [],
-        _title_count_      : __0,
-        _title_idx_        : __0,
-        _title_offset_int_ : __0
-      },
-      head_ht_px,
+      state_map,  head_ht_px,
       jquery_map, $scroll_box, $head_main
       ;
 
     if ( $one_div.length !== __1 ) { return; }
+
+    // TODO do something if in_state_map is defined
+    state_map = {
+      _jquery_map_       : {},
+      _is_our_scroll_    : __false,
+      _scroll_min_num_   : __0,
+      _scroll_max_num_   : 9999,
+      _sect_top_list_    : [],
+      _title_count_      : __0,
+      _title_idx_        : __0,
+      _title_offset_int_ : __0
+    };
 
     // populate content and cache jquery elements
     $one_div.html( configMap.tmplt_html );
@@ -537,7 +541,7 @@
       - head_ht_px
       ;
 
-    changeTitle( state_map, __0 );
+    // changeTitle( state_map, __0 );
 
     state_map._on_dragstart_main_ = function ( event_obj ) {
       // TODO: Replace with jquery.event.dragscroll
@@ -574,26 +578,29 @@
       .on( 'udragend',   state_map._on_dragend_main_   );
 
     jquery_map._$scroll_box_.on( 'scroll', state_map.on_box_scroll );
+    $one_div.data( 'jqcsx-state-map',state_map );
   };
   // END createOne
 
-  invokeWrapper = function ( $jqcsx_list, arg_map, invokeFn ) {
+  invokeWrapper = function ( $jqcsx_list, arg_map, invoke_fn ) {
     $jqcsx_list.each( function ( idx ) {
       var
-        $jqcsx_one = $jqcsx_list.eq( idx ),
-        state_map  = $jqcsx_one.data( 'jqcsx-state-map' );
-      invokeFn( state_map, arg_map, $jqcsx_list.eq( idx ) );
+        $one_div  = $jqcsx_list.eq( idx ),
+        state_map = $one_div.data( 'jqcsx-state-map' );
+
+      invoke_fn( $one_div, arg_map, state_map );
     });
-    return $jqcsx_list;
   };
 
-  $.fn.carascroll = {
-    create : function ( arg_map ) {
-      return invokeWrapper( this, arg_map, createOne );
-    },
-    changeContent : function( arg_map ) {
-      return invokeWrapper( this, arg_map, changeContentOne );
+  $.fn.carascroll = function ( arg_map ) {
+    var $jqcsx_list = this, invoke_fn;
+    switch ( arg_map.action_str ) {
+      case 'create' : invoke_fn = createOne; break;
+      case 'changeContent' : invoke_fn = changeContentOne; break;
+      default : invoke_fn = createOne; break;
     }
+    invokeWrapper( $jqcsx_list, arg_map, invoke_fn );
+    return $jqcsx_list;
   };
   // ======================= END PUBLIC METHODS ========================
 }( jQuery ));

@@ -34,14 +34,15 @@
  *
  * Create a new CarouScroll instance (returns $collection):
  *
- *     $collection.carouscroll.create(
- *       content_html : the_html, // optional
- *       label_list   : [         // optional
+ *     $collection.carouscroll({
+ *       _action_str_   : '_create_',
+ *       _content_html_ : the_html, // optional
+ *       _label_list_   : [         // optional
  *         'Summary', 'Health', 'Monitor', 'Contacts',
  *         'Interfaces', 'Software', 'Hardware', 'Config'
  *       ],
- *       head_ds_arg_map : {}  // optional dragscroll options carousel
- *       body_ds_arg_map : {}  // optional dragscroll options vertial
+ *       _head_ds_arg_map_ : {}  // optional dragscroll options carousel
+ *       _body_ds_arg_map_ : {}  // optional dragscroll options vertial
  *     });
  *
  *  If $collection contains many elements, CarouScroll.create will
@@ -49,14 +50,17 @@
  *
  * Change content (returns $collection):
  *
- *     $collection.carouscroll.changeContent(
- *       content_html : new_html,
- *       label_list   : [ 'Flopsy', 'Mopsy', 'CottonTail', 'Peter' ]
- *     );
+ *     $collection.carouscroll({
+ *       _action_str_    : _change_,
+ *       _content_html_  : new_html,
+ *       _label_list_    : [ 'Flopsy', 'Mopsy', 'CottonTail', 'Peter' ]
+ *     });
  *
  * Remove carouscroll instances (empties containers):
  *
- *     $collection.carouscroll.remove();
+ *     $collection.carouscroll({
+ *       _action_str_ : '_remove_'
+ *     });
  *
  *
  * Please the carouscroll.html for a demonstration of use.
@@ -103,6 +107,7 @@
     __1     = 1,
     __true  = true,
     __false = false,
+
     configMap = {
       tmplt_html : __blank
       + '<div class="jqcsx">'
@@ -124,196 +129,206 @@
       + '</div>',
 
       style_css  : __blank
-      + '.jqcsx, .jqcsx * {'
-      + 'box-sizing:border-box;'
-      + '-webkit-user-select:none;'
-      + '-khtml-user-select:none;'
-      + '-moz-user-select:-moz-none;'
+        + '@font-face{font-family:FontAwesome;src:url('
+        + 'node_modules/font-awesome/fonts/fontawesome-webfont.woff) '
+        + 'format(woff);'
+        + 'font-weight:normal;font-style:normal;'
+        + '}'
 
-      + '-o-user-select:none;'
-      + 'user-select:none;'
-      + '-webkit-user-drag:none;'
-      + '-moz-user-drag:none;'
-      + 'user-drag:none;'
+        + '.jqcsx, .jqcsx * {'
+        + 'box-sizing:border-box;'
+        + '-webkit-user-select:none;'
+        + '-khtml-user-select:none;'
+        + '-moz-user-select:-moz-none;'
 
-      + '-webkit-touch-callout:none;'
-      + '-webkit-tap-highlight-color:transparent;'
-      + 'font:normal 16px Arial, Helvetica, sans-serif;'
-      + '}'
-      + '.jqscx input, .jqcsx textarea, .jqcsx .jqcsx-_x_uselect_ {'
-      + '-webkit-user-select:text;'
-      + '-khtml-user-select:text;'
-      + '-moz-user-select:text;'
-      + '-o-user-select:text;'
-      + 'user-select:text;'
-      + '}'
+        + '-o-user-select:none;'
+        + 'user-select:none;'
+        + '-webkit-user-drag:none;'
+        + '-moz-user-drag:none;'
+        + 'user-drag:none;'
 
-      + '.jqcsx-_head_ {'
-      + 'position:absolute;'
-      + 'top:0;'
-      + 'left:0;'
-      + 'right:0;'
-      + 'height:3rem;'
-      + 'line-height:3rem;'
-      + 'background-color:#ea9999;'
-      + 'color:#600;'
-      + '}'
+        + '-webkit-touch-callout:none;'
+        + '-webkit-tap-highlight-color:transparent;'
+        + 'font:normal 16px Arial, Helvetica, sans-serif;'
+        + '}'
+        + '.jqscx input, .jqcsx textarea, .jqcsx .jqcsx-_x_uselect_ {'
+        + '-webkit-user-select:text;'
+        + '-khtml-user-select:text;'
+        + '-moz-user-select:text;'
+        + '-o-user-select:text;'
+        + 'user-select:text;'
+        + '}'
 
-      + '.jqcsx-_head_main_,'
-      + '.jqcsx-_head_inc_l_,'
-      + '.jqcsx-_head_inc_r_ {'
-      + 'position:absolute;'
-      + 'top:0;'
-      + 'bottom:0;'
-      + '}'
+        + '.jqcsx-_head_ {'
+        + 'position:absolute;'
+        + 'top:0;'
+        + 'left:0;'
+        + 'right:0;'
+        + 'height:3rem;'
+        + 'background-color:#ea9999;'
+        + 'color:#600;'
+        + '}'
 
-      + '.jqcsx-_head_main_ {'
-      + 'left:0.5rem;'
-      + 'right:0.5rem;'
-      + 'cursor:ew-resize;'
-      + '}'
+        + '.jqcsx-_head_main_,'
+        + '.jqcsx-_head_inc_l_,'
+        + '.jqcsx-_head_inc_r_ {'
+        + 'position:absolute;'
+        + 'top:0;'
+        + 'bottom:0;'
+        + '}'
 
-      + '.jqcsx-_head_inc_l_,'
-      + '.jqcsx-_head_inc_r_ {'
-      + 'width:1.5rem;'
-      + 'font-size:1.5rem;'
-      + 'text-align:center;'
-      + 'cursor:pointer;'
-      + '}'
+        + '.jqcsx-_head_main_ {'
+        + 'left:0.5rem;'
+        + 'right:0.5rem;'
+        + 'cursor:ew-resize;'
+        + 'line-height:3rem;'
+        + '}'
 
-      + '.jqcsx-_head_inc_l_ { left:0; }'
-      + '.jqcsx-_head_inc_r_ { right:0; }'
-      + '.jqcsx-_si_btm_,'
-      + '.jqcsx-_si_top_ {'
-      + 'position:absolute;'
-      + 'left:0;'
-      + 'right:0;'
-      + 'text-align:center;'
-      + 'height:1rem;'
-      + 'line-height:1rem;'
-      + 'background:#888;'
-      + 'color:#888;'
-      + '}'
+        + '.jqcsx-_head_inc_l_,'
+        + '.jqcsx-_head_inc_r_ {'
+        + 'width:1.5rem;'
+        + 'font-size:1.5rem;'
+        + 'text-align:center;'
+        + 'cursor:pointer;'
+        + '}'
 
-      + '.jqcsx-_si_top_ { top:3rem; }'
-      + '.jqcsx-_si_btm_ { bottom:0; }'
-      + '.jqcsx-_si_btm_.jqcsx-_x_active_,'
-      + '.jqcsx-_si_top_.jqcsx-_x_active_ { color:#fff; }'
-      + '.jqcsx-_box_ {'
-      + 'position:absolute;'
-      + 'top:4rem;'
-      + 'bottom:1rem;'
-      + 'left:0;'
-      + 'right:0;'
-      + 'overflow-x:hidden;'
-      + 'overflow-y:auto;'
-      + '}'
+        + '.jqcsx-_head_inc_l_ { left:0; }'
+        + '.jqcsx-_head_inc_r_ { right:0; }'
+        + '.jqcsx-_si_btm_,'
+        + '.jqcsx-_si_top_ {'
+        + 'position:absolute;'
+        + 'left:0;'
+        + 'right:0;'
+        + 'text-align:center;'
+        + 'height:1rem;'
+        + 'line-height:1rem;'
+        + 'font-family:FontAwesome;'
+        + 'background:#888;'
+        + 'color:#888;'
+        + '}'
 
-      + '.jqcsx-_box_ h1 {'
-      + 'padding:0 2rem;'
-      + 'margin:.5rem __0 .5rem 0;'
-      + 'color:#600;'
-      + '}'
+        + '.jqcsx-_si_top_ { top:3rem; }'
+        + '.jqcsx-_si_btm_ { bottom:0; }'
+        + '.jqcsx-_si_btm_.jqcsx-_x_active_,'
+        + '.jqcsx-_si_top_.jqcsx-_x_active_ { color:#fff; }'
+        + '.jqcsx-_box_ {'
+        + 'position:absolute;'
+        + 'top:4rem;'
+        + 'bottom:1rem;'
+        + 'left:0;'
+        + 'right:0;'
+        + 'overflow-x:hidden;'
+        + 'overflow-y:auto;'
+        + '}'
 
-      + '.jqcsx-_box_ h1.jqcsx-_x_select_ {'
-      + 'color:#fff;'
-      + 'background:#ea9999;'
-      + '}'
+        + '.jqcsx-_box_ h1 {'
+        + 'font-size:1.75rem;'
+        + 'padding:0 2rem;'
+        + 'margin:.5rem __0 .5rem 0;'
+        + 'color:#600;'
+        + '}'
 
-      + '.jqcsx-_box_ p {'
-      + 'padding:0 2rem;'
-      + 'margin:.5rem __0 .5rem 0;'
-      + '}'
+        + '.jqcsx-_box_ h1.jqcsx-_x_select_ {'
+        + 'color:#fff;'
+        + 'background:#ea9999;'
+        + '}'
 
-      + '.jqcsx-_head_main_ > div {'
-      + 'position:absolute;'
-      + 'top:0;'
-      + 'height:3rem;'
-      + 'overflow:hidden;'
-      + 'transition:all 0.5s ease;'
-      + '}'
+        + '.jqcsx-_box_ p {'
+        + 'padding:0 2rem;'
+        + 'margin:.5rem __0 .5rem 0;'
+        + '}'
 
-      + '.jqcsx-_head_main_ .jqcsx-x-t0,'
-      + '.jqcsx-_head_main_ .jqcsx-x-t6 {'
-      + 'width:20%;'
-      + 'opacity:.1;'
-      + 'font-weight:200;'
-      + 'font-size:0.5rem;'
-      + 'z-index:0;'
-      + '}'
+        + '.jqcsx-_head_main_ > div {'
+        + 'position:absolute;'
+        + 'top:0;'
+        + 'height:3rem;'
+        + 'line-height:3rem;'
+        + 'overflow:hidden;'
+        + 'transition:all 0.5s ease;'
+        + '}'
 
-      + '.jqcsx-_head_main_ .jqcsx-x-t0 {'
-      + 'left:0;'
-      + 'text-align:left;'
-      + '}'
+        + '.jqcsx-_head_main_ .jqcsx-x-t0,'
+        + '.jqcsx-_head_main_ .jqcsx-x-t6 {'
+        + 'width:20%;'
+        + 'opacity:.1;'
+        + 'font-weight:200;'
+        + 'font-size:0.5rem;'
+        + 'z-index:0;'
+        + '}'
 
-      + '.jqcsx-_head_main_ .jqcsx-x-t6 {'
-      + 'right:0;'
-      + 'text-align:right;'
-      + 'direction:rtl;'
-      + '}'
+        + '.jqcsx-_head_main_ .jqcsx-x-t0 {'
+        + 'left:0;'
+        + 'text-align:left;'
+        + '}'
 
-      + '.jqcsx-_head_main_ .jqcsx-x-t1,'
-      + '.jqcsx-_head_main_ .jqcsx-x-t5 {'
-      + 'width:25%;'
-      + 'opacity:.3;'
-      + 'font-weight:200;'
-      + 'font-size:1rem;'
-      + 'color:#fff;'
-      + 'z-index:1;'
-      + '}'
+        + '.jqcsx-_head_main_ .jqcsx-x-t6 {'
+        + 'right:0;'
+        + 'text-align:right;'
+        + 'direction:rtl;'
+        + '}'
 
-      + '.jqcsx-_head_main_ .jqcsx-x-t1 {'
-      + 'left:2%;'
-      + 'text-align:left;'
-      + '}'
+        + '.jqcsx-_head_main_ .jqcsx-x-t1,'
+        + '.jqcsx-_head_main_ .jqcsx-x-t5 {'
+        + 'width:25%;'
+        + 'opacity:.3;'
+        + 'font-weight:200;'
+        + 'font-size:1rem;'
+        + 'color:#fff;'
+        + 'z-index:1;'
+        + '}'
 
-      + '.jqcsx-_head_main_ .jqcsx-x-t5 {'
-      + 'right:2%;'
-      + 'text-align:right;'
-      + 'direction:rtl;'
-      + '}'
+        + '.jqcsx-_head_main_ .jqcsx-x-t1 {'
+        + 'left:2%;'
+        + 'text-align:left;'
+        + '}'
 
-      + '.jqcsx-_head_main_ .jqcsx-x-t2,'
-      + '.jqcsx-_head_main_ .jqcsx-x-t4 {'
-      + 'width:25%;'
-      + 'opacity:.4;'
-      + 'font-weight:400;'
-      + 'font-size:1.2rem;'
-      + 'z-index:2;'
-      + '}'
+        + '.jqcsx-_head_main_ .jqcsx-x-t5 {'
+        + 'right:2%;'
+        + 'text-align:right;'
+        + 'direction:rtl;'
+        + '}'
 
-      + '.jqcsx-_head_main_ .jqcsx-x-t2 {'
-      + 'left:8%;'
-      + 'text-align:left;'
-      + '}'
+        + '.jqcsx-_head_main_ .jqcsx-x-t2,'
+        + '.jqcsx-_head_main_ .jqcsx-x-t4 {'
+        + 'width:25%;'
+        + 'opacity:.4;'
+        + 'font-weight:400;'
+        + 'font-size:1.2rem;'
+        + 'z-index:2;'
+        + '}'
 
-      + '.jqcsx-_head_main_ .jqcsx-x-t4 {'
-      + 'right:8%;'
-      + 'text-align:right;'
-      + 'direction:rtl;'
-      + '}'
+        + '.jqcsx-_head_main_ .jqcsx-x-t2 {'
+        + 'left:8%;'
+        + 'text-align:left;'
+        + '}'
 
-      + '.jqcsx-_head_main_ .jqcsx-x-t3 {'
-      + 'left:50%;'
-      + 'margin-left:-30%;'
-      + 'width:60%;'
-      + 'opacity:1;'
-      + 'font-weight:800;'
-      + 'font-size:2.2rem;'
-      + 'text-align:center;'
-      + 'z-index:3;'
-      + 'color:#fff;'
-      + '}'
+        + '.jqcsx-_head_main_ .jqcsx-x-t4 {'
+        + 'right:8%;'
+        + 'text-align:right;'
+        + 'direction:rtl;'
+        + '}'
+
+        + '.jqcsx-_head_main_ .jqcsx-x-t3 {'
+        + 'left:50%;'
+        + 'margin-left:-30%;'
+        + 'width:60%;'
+        + 'opacity:1;'
+        + 'font-weight:800;'
+        + 'font-size:2.2rem;'
+        + 'text-align:center;'
+        + 'z-index:3;'
+        + 'color:#fff;'
+        + '}'
     },
+    stateMap = { _do_init_ : __true },
 
     makeJqueryMap,
 
-    updateScrollIndicators,
+    updateScrollMarks,
     changeTitle,
     syncToScroll,
 
-    changeContentOne,
+    changeOne,
     createOne,
     invokeWrapper
     ;
@@ -341,16 +356,16 @@
     };
   };
 
-  updateScrollIndicators = function ( state_map, scroll_num ) {
+  updateScrollMarks = function ( state_map, scroll_num ) {
     var jquery_map = state_map._jquery_map_;
 
     jquery_map._$si_top_.toggleClass(
       'jqcsx-_x_active_',
-      ( scroll_num >  state_map._scroll_min_num_ )
+      ( scroll_num >  state_map._min_scrollnum_ )
     );
     jquery_map._$si_btm_.toggleClass(
       'jqcsx-_x_active_',
-      ( scroll_num <  state_map._scroll_max_num_ )
+      ( scroll_num <  state_map._max_scrollnum_ )
     );
   };
 
@@ -361,7 +376,7 @@
       $head_title_list = jquery_map._$head_title_list_,
       $sect_list       = jquery_map._$sect_list_,
 
-      sect_top_list    = state_map._sect_top_list,
+      sect_top_list    = state_map._sect_top_list_,
       title_count      = state_map._title_count_,
       title_offset_int = state_map._title_offset_int_,
 
@@ -397,7 +412,7 @@
           state_map._title_idx_ = i;
 
           jquery_map._$scroll_box_.animate( { scrollTop : scroll_num }, anim_ms );
-          updateScrollIndicators( scroll_num );
+          updateScrollMarks( state_map, scroll_num );
         }
 
       }
@@ -441,8 +456,7 @@
         prelim_idx    = i;
       }
     }
-
-    updateScrollIndicators( scroll_num );
+    updateScrollMarks( state_map, scroll_num );
 
     // do not do anything if no change
     if ( prelim_idx === title_idx ) { return; }
@@ -458,29 +472,34 @@
   // ======================= END EVENT HANDLERS ========================
 
   // ====================== BEGIN PUBLIC METHODS =======================
-  // BEGIN createOne
-  changeContentOne = function ( $one_div, arg_map, state_map ) {
+  // BEGIN changeOne
+  changeOne = function ( $one_div, arg_map, state_map ) {
     var
       jquery_map = state_map._jquery_map_,
 
       $scroll_box      = jquery_map._$scroll_box_,
       $head_title_list = jquery_map._$head_title_list_,
 
-      sect_top_list  = [],
-      label_list     = arg_map.label_list || [],
-      label_count    = label_list.length,
+      sect_top_list    = [],
+      label_list       = arg_map._label_list_ || [],
+      label_count      = label_list.length,
 
-      $sect_list, i
+      vert_offset_num, $sect_list, i
       ;
 
-    $scroll_box.html( arg_map.content_html );
-    $sect_list = $scroll_box.children( 'h1' );
+    $scroll_box.html( arg_map._content_html_ );
 
+    $sect_list = $scroll_box.children( 'h1' );
     $sect_list.each( function( idx /*, el*/ ) {
-      var scrolltop_num = $sect_list.eq( idx ).offset().top
-        - state_map._scroll_min_num_
-        ;
-      if ( scrolltop_num < __0 ) { scrolltop_num = __0; }
+      var scrolltop_num = $sect_list.eq( idx ).offset().top;
+
+      if ( idx === __0 ) {
+        vert_offset_num = scrolltop_num;
+        scrolltop_num = __0;
+      }
+      else {
+        scrolltop_num -= vert_offset_num;
+      }
       sect_top_list.push( scrolltop_num );
     });
 
@@ -492,23 +511,31 @@
 
     // Update state map
     jquery_map._$sect_list_   = $sect_list;
+    state_map._min_scrollnum_ = vert_offset_num;
     state_map._sect_top_list_ = sect_top_list;
+    state_map._max_scrollnum_ = $scroll_box.prop('scrollHeight')
+      - $scroll_box.height() - vert_offset_num;
   };
+  // END changeOne
 
+  // BEGIN createOne
   createOne = function ( $one_div, arg_map, in_state_map ) {
-    var
-      state_map,  head_ht_px,
-      jquery_map, $scroll_box, $head_main
-      ;
+    var state_map, jquery_map, $head_main, scrollbox_drag_obj;
 
+    // Arg check
     if ( $one_div.length !== __1 ) { return; }
+    if ( ! ( arg_map._content_html_ && arg_map._label_list_ ) ) {
+      console.error( '_content_list__and__title_list__are_required' );
+      return;
+    }
 
-    // TODO do something if in_state_map is defined
+    // Create instance
+    // TODO do something if in_state_map is already defined
     state_map = {
       _jquery_map_       : {},
       _is_our_scroll_    : __false,
-      _scroll_min_num_   : __0,
-      _scroll_max_num_   : 9999,
+      _min_scrollnum_    : __0,
+      _max_scrollnum_    : 9999,
       _sect_top_list_    : [],
       _title_count_      : __0,
       _title_idx_        : __0,
@@ -523,43 +550,32 @@
     state_map._jquery_map_  = jquery_map;
     state_map._title_count_ = jquery_map._$head_title_list_.length;
 
-    // if content provided, add it
-    if ( arg_map.content_list && arg_map.title_list ) {
-      changeContentOne.call( state_map, $one_div, arg_map);
-    }
-
     // local common-use vars
-    $scroll_box = jquery_map._$scroll_box_;
-    $head_main  = jquery_map._$head_main_;
+    $head_main              = jquery_map._$head_main_;
+    state_map._head_ht_num_ = $head_main.height();
 
-    // calculate scrolltop offset
-    head_ht_px = $head_main.height();
+    changeOne( $one_div, arg_map, state_map );
+    changeTitle( state_map, __0 );
+    scrollbox_drag_obj
+      = $.makeDragScrollObj({ _$scroll_box_ : jquery_map._$scroll_box_ });
 
-    state_map._scroll_min_num_ = head_ht_px;
-    state_map._scroll_max_num_ = $scroll_box.prop('scrollHeight')
-      - $scroll_box.height()
-      - head_ht_px
-      ;
-
-    // changeTitle( state_map, __0 );
-
-    state_map._on_dragstart_main_ = function ( event_obj ) {
-      // TODO: Replace with jquery.event.dragscroll
-      console.warn( 'start', event_obj );
-    };
-    state_map._on_dragmove_main_ = function ( event_obj ) {
-      // TODO: Replace with jquery.event.dragscroll
-      var delta_px = event_obj.px_start_x - event_obj.px_current_x;
-      console.warn( delta_px );
-    };
-    state_map._on_dragend_main_ = function ( event_obj ) {
-      // TODO: Replace with jquery.event.dragscroll
-      console.warn( 'end', event_obj );
-    };
-    state_map._on_box_scroll_ = function ( /*event_obj*/ ) {
-      // TODO: Throttle this
-      syncToScroll( state_map );
-    };
+    state_map._scrollbox_drag_obj_ = scrollbox_drag_obj;
+    state_map._on_dragstart_main_  = scrollbox_drag_obj._onstartHandler_;
+    state_map._on_dragmove_main_   = scrollbox_drag_obj._onmoveHandler_;
+    state_map._on_dragend_main_    = scrollbox_drag_obj._onendHandler_;
+    //  function ( event_obj ) {
+    //  // TODO: Replace with jquery.event.dragscroll
+    //  console.warn( 'start', event_obj );
+    //};
+    //state_map._on_dragmove_main_ = function ( event_obj ) {
+    //  // TODO: Replace with jquery.event.dragscroll
+    //  var delta_px = event_obj.px_start_x - event_obj.px_current_x;
+    //  console.warn( delta_px );
+    //};
+    //state_map._on_dragend_main_ = function ( event_obj ) {
+    //  // TODO: Replace with jquery.event.dragscroll
+    //  console.warn( 'end', event_obj );
+    //};
 
     state_map._on_tap_l_ = function ( /*event_obj*/ ) {
       // TODO: Replace with jquery.event.dragscroll
@@ -569,15 +585,19 @@
       // TODO: Replace with jquery.event.dragscroll
       changeTitle( state_map, -1 );
     };
+    state_map._on_box_scroll_ = function ( /*event_obj*/ ) {
+      // TODO: Throttle this
+      syncToScroll( state_map );
+    };
 
     jquery_map._$head_inc_l_.on( 'utap', state_map._on_tap_l_ );
     jquery_map._$head_inc_r_.on( 'utap', state_map._on_tap_r_ );
-    jquery_map._$head_main_
+    jquery_map._$scroll_box_
       .on( 'udragstart', state_map._on_dragstart_main_ )
       .on( 'udragmove',  state_map._on_dragmove_main_  )
-      .on( 'udragend',   state_map._on_dragend_main_   );
+      .on( 'udragend',   state_map._on_dragend_main_   )
+      .on( 'scroll', state_map._on_box_scroll_         );
 
-    jquery_map._$scroll_box_.on( 'scroll', state_map.on_box_scroll );
     $one_div.data( 'jqcsx-state-map',state_map );
   };
   // END createOne
@@ -593,11 +613,19 @@
   };
 
   $.fn.carascroll = function ( arg_map ) {
-    var $jqcsx_list = this, invoke_fn;
-    switch ( arg_map.action_str ) {
-      case 'create' : invoke_fn = createOne; break;
-      case 'changeContent' : invoke_fn = changeContentOne; break;
-      default : invoke_fn = createOne; break;
+    var $jqcsx_list = this, $stylesheet, invoke_fn;
+    if ( stateMap._do_init_ ) {
+      $stylesheet = $( 'style#jqscx' );
+      if ( $stylesheet.length < 1 ){
+        $stylesheet = $('<style id="jqcsx">');
+        $stylesheet.text( configMap.style_css ).appendTo('head');
+      }
+      stateMap._do_init_ = __false;
+    }
+    switch ( arg_map._action_str_ ) {
+      case '_create_' : invoke_fn = createOne; break;
+      case '_change_' : invoke_fn = changeOne; break;
+      default         : invoke_fn = createOne; break;
     }
     invokeWrapper( $jqcsx_list, arg_map, invoke_fn );
     return $jqcsx_list;

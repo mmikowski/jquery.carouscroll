@@ -30,7 +30,9 @@
   }
 
   .test_div {
+    float    : left;
     position : relative;
+    margin   : 1rem 0 0 1rem;
     width    : 24.5rem;
     height   : 28.5rem ;
     border   : 1px solid #666;
@@ -50,12 +52,14 @@
   <script>
   $(function () {
     'use strict';
-    var $test_div = $('.test_div');
+    var
+      $test_div = $('.test_div' );
+
     $test_div.carascroll({
       _label_list_   : [
         'Software', 'Hardware', 'Config',
-       'Summary', 'Health', 'Monitor', 'Contacts',
-       'Interfaces'
+        'Summary', 'Health', 'Monitor',
+        'Contacts', 'Interfaces'
       ],
       _content_html_ : ''
         + '<h1>Software</h1>'
@@ -148,11 +152,31 @@
         + 'to this principle of selection: he rejects pleasures '
         + 'to secure other greater pleasures, or else he endures '
         + 'pains to avoid worse pains.</p>'
+        + '<h1>Interfaces</h1>'
+        + '<p>No one rejects, dislikes, or avoids pleasure itself, '
+        + 'because it is pleasure, but because those who do '
+        + 'not know how to pursue pleasure rationally encounter '
+        + 'consequences that are extremely painful. Nor again '
+        + 'is there anyone who loves or pursues or desires to '
+        + 'obtain pain of itself, because it is pain, but because '
+        + 'occasionally circumstances occur in which toil and '
+        + 'pain can procure him some great pleasure. '
+        + '<p>To take '
+        + 'a trivial example, which of us ever undertakes laborious '
+        + 'physical exercise, except to obtain some advantage '
+        + 'from it? But who has any right to find fault with '
+        + 'a man who chooses to enjoy a pleasure that has no '
+        + 'annoying consequences, or one who avoids a pain that '
+        + 'produces no resultant pleasure?</p>'
       });
   });
   </script>
 </head>
 <body>
+  <div class="test_div"></div>
+  <div class="test_div"></div>
+  <div class="test_div"></div>
+  <div class="test_div"></div>
   <div class="test_div"></div>
 </body>
 </html>

@@ -24,8 +24,6 @@
     right      : 0;
     bottom     : 0;
     color      : #666;
-    overflow-x : hidden;
-    overflow-y : hidden;
     overflow   : hidden;
     font       : normal 16px Arial, Helvetica, sans-serif;
   }
@@ -234,7 +232,6 @@
   $(function () {
     'use strict';
     var
-      cMap = {},
       sMap = {
         _is_our_scroll_    : false,
         _scroll_min_num_   : 0,
@@ -242,7 +239,7 @@
         _sect_top_list_    : [],
         _title_count_      : 0,
         _title_idx_        : 0,
-        _title_offset_int_ : 0,
+        _title_offset_int_ : 0
       },
       jMap,
       
@@ -302,7 +299,7 @@
       
         i, next_int, next_class_str,
         scroll_num, $sect, 
-        offset_map, anim_ms;
+        anim_ms;
         
       sMap._is_our_scroll_ = true;
 
@@ -320,7 +317,7 @@
 
         // Scroll to element on title
         if ( next_int === 3 ) {
-          scroll_num = sect_top_list[ i ]
+          scroll_num = sect_top_list[ i ];
           $sect      = $sect_list.eq( i );
           $sect_list.removeClass( 'jqcsx-_x_select_' );
           $sect.addClass( 'jqcsx-_x_select_' );

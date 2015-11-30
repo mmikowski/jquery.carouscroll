@@ -213,7 +213,7 @@
         + '.jqcsx-_box_ h1 {'
         + 'font-size:1.75rem;'
         + 'padding:0 2rem;'
-        + 'margin:.5rem __0 .5rem 0;'
+        + 'margin:.5rem 0 .5rem 0;'
         + 'color:#ea9999;'
         + 'font-weight:800;'
         + '}'
@@ -224,7 +224,7 @@
 
         + '.jqcsx-_box_ p {'
         + 'padding:0 2rem;'
-        + 'margin:.5rem __0 .5rem 0;'
+        + 'margin:.5rem 0 .5rem 0;'
         + '}'
 
         + '.jqcsx-_head_main_ > div {'

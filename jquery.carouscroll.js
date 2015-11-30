@@ -664,7 +664,7 @@
   };
   // END invokeWrapper
 
-  $.fn.carascroll = function ( arg_map ) {
+  $.fn.carouscroll = function ( arg_map ) {
     var $jqcsx_list = this, $stylesheet, invoke_fn;
     if ( stateMap._do_init_ ) {
       $stylesheet = $( 'style#jqscx' );

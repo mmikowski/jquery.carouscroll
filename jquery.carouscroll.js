@@ -115,7 +115,6 @@
       _stop_velocity_num_  : 0.1,
 
       _tmplt_html_ : __blank
-        + '<div class="jqcsx">'
         + '<div class="jqcsx-_head_">'
         + '<div class="jqcsx-_head_main_"></div>'
         + '<div class="jqcsx-_head_inc_l_"></div>'
@@ -123,16 +122,9 @@
         + '</div>'
         + '<div class="jqcsx-_si_top_">&#xf141;</div>'
         + '<div class="jqcsx-_box_">{_scroll_html_}</div>'
-        + '<div class="jqcsx-_si_btm_">&#xf141;</div>'
-        + '</div>',
+        + '<div class="jqcsx-_si_btm_">&#xf141;</div>',
 
       _style_css_ : __blank
-        + '@font-face{font-family:FontAwesome;src:url('
-        + 'node_modules/font-awesome/fonts/fontawesome-webfont.woff) '
-        + 'format(woff);'
-        + 'font-weight:normal;font-style:normal;'
-        + '}'
-
         + '.jqcsx, .jqcsx * {'
         + 'box-sizing:border-box;'
         + '-webkit-user-select:none;'
@@ -163,7 +155,7 @@
         + 'left:0;'
         + 'right:0;'
         + 'height:3rem;'
-        + 'background-color:#ea9999;'
+        + 'background:#ea9999;'
         + 'color:#600;'
         + '}'
 
@@ -198,11 +190,10 @@
         + 'left:0;'
         + 'right:0;'
         + 'text-align:center;'
-        + 'height:1rem;'
-        + 'line-height:1rem;'
+        + 'height:.5rem;'
+        + 'line-height:.75rem;'
         + 'font-family:FontAwesome;'
-        + 'background:#888;'
-        + 'color:#888;'
+        + 'color:#ea9999;'
         + '}'
 
         + '.jqcsx-_si_top_ { top:3rem; }'
@@ -211,10 +202,11 @@
         + '.jqcsx-_si_top_.jqcsx-_x_active_ { color:#fff; }'
         + '.jqcsx-_box_ {'
         + 'position:absolute;'
-        + 'top:4rem;'
-        + 'bottom:1rem;'
+        + 'top:3.5rem;'
+        + 'bottom:.5rem;'
         + 'left:0;'
         + 'right:0;'
+        + 'background:#fff;'
         + 'overflow-x:hidden;'
         + 'overflow-y:auto;'
         + '}'
@@ -223,12 +215,12 @@
         + 'font-size:1.75rem;'
         + 'padding:0 2rem;'
         + 'margin:.5rem __0 .5rem 0;'
-        + 'color:#600;'
+        + 'color:#ea9999;'
+        + 'font-weight:800;'
         + '}'
 
         + '.jqcsx-_box_ h1.jqcsx-_x_select_ {'
-        + 'color:#fff;'
-        + 'background:#ea9999;'
+        + 'color:#844;'
         + '}'
 
         + '.jqcsx-_box_ p {'
@@ -343,18 +335,17 @@
   // ======================= BEGIN DOM METHODS =========================
   makeJqueryMap = function ( $one_div ) {
     var
-      $main       = $one_div.find('.jqcsx' ),
-      $scroll_box = $main.find( '.jqcsx-_box_' ),
-      $head_main  = $main.find( '.jqcsx-_head_main_' )
+      $scroll_box = $one_div.find( '.jqcsx-_box_' ),
+      $head_main  = $one_div.find( '.jqcsx-_head_main_' )
       ;
 
     return {
-      _$head_inc_l_ : $main.find( '.jqcsx-_head_inc_l_' ),
-      _$head_inc_r_ : $main.find( '.jqcsx-_head_inc_r_' ),
+      _$head_inc_l_ : $one_div.find( '.jqcsx-_head_inc_l_' ),
+      _$head_inc_r_ : $one_div.find( '.jqcsx-_head_inc_r_' ),
       _$head_main_  : $head_main,
       _$scroll_box_ : $scroll_box,
-      _$si_btm_     : $main.find( '.jqcsx-_si_btm_' ),
-      _$si_top_     : $main.find( '.jqcsx-_si_top_' )
+      _$si_btm_     : $one_div.find( '.jqcsx-_si_btm_' ),
+      _$si_top_     : $one_div.find( '.jqcsx-_si_top_' )
     };
   };
 
@@ -562,7 +553,7 @@
     }
 
     // populate content and cache jquery elements
-    $one_div.html( configMap._tmplt_html_ );
+    $one_div.addClass( 'jqcsx' ).html( configMap._tmplt_html_ );
     jquery_map = makeJqueryMap( $one_div );
 
     // Add content and set title
@@ -606,7 +597,8 @@
       _on_stop_fn_  : function () {
         state_map._is_our_scroll_ = __false;
         syncToScroll( state_map );
-      }
+      },
+      _prop_mode_key_ : '_stop_all_'
     });
 
     state_map._box_drag_obj_      = box_drag_obj;
@@ -616,9 +608,11 @@
 
     state_map._on_tap_l_ = function ( /*event_obj*/ ) {
       changeTitle( state_map, 1 );
+      return __false;
     };
     state_map._on_tap_r_ = function ( /*event_obj*/ ) {
       changeTitle( state_map, -1 );
+      return __false;
     };
     state_map._on_scroll_box = function ( event_obj ) {
       // TODO: consider throttling; currently ~40ms per event
@@ -630,7 +624,8 @@
       // If we are moving slow enough, let the click bubble
       if (
         vxvy_list[__0 ] + vxvy_list[__1] < configMap._stop_velocity_num_
-      ) { return __true; }
+      ) { return __false; }
+      // Do stuff here
       return __false;
     };
 

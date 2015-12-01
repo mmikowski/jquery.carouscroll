@@ -45,6 +45,8 @@
     height   : 28.5rem ;
     border   : 1px solid #666;
   }
+  .test_div.group_1 { background: #a88; }
+  .test_div.group_2 { background: #8a8; }
 
   </style>
   <script
@@ -63,14 +65,6 @@
     var
       $group1 = $( '.test_div.group_1' ),
       $group2 = $( '.test_div.group_2' ),
-      label1_list = [
-        'Software', 'Hardware', 'Config',
-        'Summary', 'Health', 'Monitor',
-        'Contacts', 'Interfaces'
-      ],
-      label2_list = [
-        'Frank', 'Larel', 'Hardy', 'Bitches'
-      ],
       content1_html = ''
         + '<h1>Software</h1>'
         + '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, '
@@ -214,7 +208,7 @@
         + 'and I will give you a complete account of the system, '
         + 'and expound the actual teachings of the great explorer '
         + 'of the truth, the master-builder of human happiness.</p>'
-        + '<h1>Bitches</h1>'
+        + '<h1>Beaches</h1>'
         + '<p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur '
         + 'aut odit aut fugit, sed quia consequuntur magni dolores '
         + 'eos qui ratione voluptatem sequi nesciunt. Neque porro '
@@ -224,13 +218,11 @@
         + 'quaerat voluptatem.</p>'
       ;
 
-    $group1.carascroll({
-      _label_list_   : label1_list,
+    $group1.carouscroll({
       _content_html_ : content1_html
     });
 
-    $group2.carascroll( {
-      _label_list_   : label2_list,
+    $group2.carouscroll( {
       _content_html_ : content2_html
     });
   });

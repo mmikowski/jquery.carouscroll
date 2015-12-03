@@ -494,7 +494,7 @@
       scrollto_list, vert_offset_num, scrolltop_num,
 
       label_str, scroll_ht_num, box_ht_num, end_sect_ht_num,
-      delta_ht_num, max_scroll_num, min_scroll_num,
+      delta_ht_num, max_scrollnum, min_scrollnum,
 
       norm_title_count,   norm_label_list,
       norm_scrollto_list, title_count,
@@ -547,8 +547,8 @@
       $scroll_box.css( { 'padding-bottom' : h1_ht_num } );
     }
 
-    min_scroll_num = h1_ht_num;
-    max_scroll_num = scroll_ht_num - box_ht_num;
+    min_scrollnum = h1_ht_num;
+    max_scrollnum = scroll_ht_num - box_ht_num - h1_ht_num;
 
     // Normalize label list and scrollto_list to have at least 7 elements
     norm_title_count   = __0;
@@ -580,8 +580,8 @@
       _label_list_      : label_list,
       _h1_count_        : h1_count,
 
-      _max_scrollnum_   : max_scroll_num,
-      _min_scrollnum_   : min_scroll_num,
+      _max_scrollnum_   : max_scrollnum,
+      _min_scrollnum_   : min_scrollnum,
 
       _scrollto_list_   : scrollto_list,
 

@@ -493,7 +493,7 @@
 
       scrollto_list, vert_offset_num, scrolltop_num,
 
-      label_str, scroll_ht_num, box_ht_num, end_ht_num,
+      label_str, scroll_ht_num, box_ht_num, end_sect_ht_num,
       delta_ht_num, max_scroll_num, min_scroll_num,
 
       norm_title_count,   norm_label_list,
@@ -534,13 +534,13 @@
     }
 
     // Adjust spacer div at end to allow last title to reach top
-    scroll_ht_num  = $scroll_box.prop('scrollHeight');
-    box_ht_num     = $scroll_box.height();
-    end_ht_num     = scroll_ht_num - scrollto_list[ h1_count - __1 ];
-    delta_ht_num   = box_ht_num - end_ht_num;
+    scroll_ht_num    = $scroll_box.prop( 'scrollHeight' );
+    box_ht_num       = $scroll_box.height();
+    end_sect_ht_num  = scroll_ht_num - scrollto_list[ h1_count - __1 ];
+    delta_ht_num     = box_ht_num - end_sect_ht_num;
 
     if (  delta_ht_num > __0 ) {
-      $scroll_box.css( { 'padding-bottom' : delta_ht_num + h1_ht_num } );
+      $scroll_box.css( { 'padding-bottom' : delta_ht_num } );
       scroll_ht_num += delta_ht_num;
     }
     else {

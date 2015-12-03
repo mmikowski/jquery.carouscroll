@@ -99,15 +99,18 @@
 (function ( $ ) {
   'use strict';
   // ================== BEGIN MODULE SCOPE VARIABLES ===================
+  //noinspection MagicNumberJS
   var
     __blank = '',
     __0     = 0,
     __1     = 1,
     __false = false,
     __true  = true,
-    __undef = ( function () { return; }() ),
+    __undef = ( function () { return; }() ), // jslint hack for undef
 
     configMap = {
+      _amin_scroll_ms_ : 200,
+
       _title_midpoint_idx_ : 3,
       _title_total_count_  : 7,
       _stop_velocity_num_  : 0.1,
@@ -320,6 +323,7 @@
 
     updateScrollMarks,
     changeTitle,
+    scrollTheBox,
     syncToScroll,
 
     addContent,
@@ -361,6 +365,7 @@
     );
   };
 
+  // BEGIN DOM method /changeTitle/
   changeTitle = function ( state_map, inc_int, do_skip_scroll ) {
     var
       jquery_map  = state_map._jquery_map_,
@@ -375,8 +380,6 @@
 
       i, next_int, next_class_str,
       scroll_num, $h1, h1_idx, anim_ms;
-
-    state_map._is_our_scroll_ = __true;
 
     // BEGIN _UPDATE_TITLE_
     for ( i = __0; i < title_count; i++ ) {
@@ -394,25 +397,20 @@
         scroll_num = scrollto_list[ i ];
 
         h1_idx = i;
-        while( h1_idx >= h1_count ) {
-          h1_idx -= h1_count;
-        }
+        while( h1_idx >= h1_count ) { h1_idx -= h1_count; }
+
         $h1 = $h1_list.eq( h1_idx );
         $h1_list.removeClass( 'jqcsx-_x_select_' );
         $h1.addClass( 'jqcsx-_x_select_' );
 
         if ( ! do_skip_scroll ) {
           // Do not animate if first showing or not moving
-          anim_ms = inc_int === __0 ? __0 : 200;
+          anim_ms = inc_int === __0 ? __0 : configMap._anim_scroll_ms_;
           state_map._is_our_scroll_ = __true;
           state_map._title_idx_ = i;
 
-          jquery_map._$scroll_box_.animate(
-            { scrollTop : scroll_num }, anim_ms
-          );
-          updateScrollMarks( state_map, scroll_num );
+          scrollTheBox( state_map, scroll_num, anim_ms );
         }
-
       }
     }
     // END _UPDATE_TITLE_
@@ -423,12 +421,26 @@
       title_offset_int -= title_count;
     }
     while ( title_offset_int < __0 ) { title_offset_int += title_count; }
-
     state_map._title_offset_int_ = title_offset_int;
-
-    setTimeout( function () { state_map._is_our_scroll_ = __false; }, 500 );
   };
-  // END changeTitle
+  // END DOM method /changeTitle/
+
+  // BEGIN DOM method /scrollTheBox/
+  scrollTheBox = function ( state_map, scroll_num, anim_ms ) {
+    var $scroll_box = state_map._jquery_map_._$scroll_box_;
+
+    state_map._is_our_scroll_ = __true;
+    $scroll_box.animate(
+      { scrollTop : scroll_num },
+      anim_ms,
+      function () {
+        // Remove the "_is_our_scroll_" flag after our scrollTo has completed
+        state_map._is_our_scroll_ = __false;
+        updateScrollMarks( state_map, scroll_num );
+      }
+    );
+  };
+  // END COM method /scrollTheBox/
 
   // BEGIN syncToScroll
   syncToScroll = function ( state_map ) {
@@ -481,13 +493,13 @@
 
       scrollto_list, vert_offset_num, scrolltop_num,
 
-      scroll_ht_num, box_ht_num, end_ht_num,
+      label_str, scroll_ht_num, box_ht_num, end_ht_num,
       delta_ht_num, max_scroll_num, min_scroll_num,
 
       norm_title_count,   norm_label_list,
       norm_scrollto_list, title_count,
 
-      title_html_list, $title_list
+      title_html_list, title_html, $title_list
       ;
 
     jquery_map   = arg_map._jquery_map_;
@@ -497,10 +509,7 @@
 
     // Fill the scroll box and get the h1 tags
     $scroll_box = jquery_map._$scroll_box_;
-    $scroll_box.html(
-      content_html
-      + '<div class="jqcsx-_box_spacer_"></div>'
-    );
+    $scroll_box.html( content_html );
 
     // Loop through all h1 tags
     $h1_list = $scroll_box.children( 'h1' );
@@ -511,9 +520,10 @@
       $h1 = $h1_list.eq( i );
 
       // Build label list
-      label_list.push( $h1.text() );
+      label_str = $h1.text();
+      label_list.push( label_str );
 
-      // Build scroll-top list for h1 tags. 
+      // Build scroll-top list for h1 tags.
       //   Use the offset().top of the first h1 as our baseline y=0
       if ( i === __0 ) {
         vert_offset_num = $h1.offset().top;
@@ -526,17 +536,19 @@
     // Adjust spacer div at end to allow last title to reach top
     scroll_ht_num  = $scroll_box.prop('scrollHeight');
     box_ht_num     = $scroll_box.height();
-    end_ht_num     = scroll_ht_num - scrollto_list[ h1_count - 1 ];
-    delta_ht_num   = end_ht_num - box_ht_num;
-
-    // TODO this is a hack
-    max_scroll_num = scroll_ht_num - box_ht_num - vert_offset_num - h1_ht_num;
-    min_scroll_num = h1_ht_num;
+    end_ht_num     = scroll_ht_num - scrollto_list[ h1_count - __1 ];
+    delta_ht_num   = box_ht_num - end_ht_num;
 
     if (  delta_ht_num > __0 ) {
-      $scroll_box.find( '.jqcsx-_box_spacer_' ).height( delta_ht_num );
+      $scroll_box.css( { 'padding-bottom' : delta_ht_num + h1_ht_num } );
       scroll_ht_num += delta_ht_num;
     }
+    else {
+      $scroll_box.css( { 'padding-bottom' : h1_ht_num } );
+    }
+
+    min_scroll_num = h1_ht_num;
+    max_scroll_num = scroll_ht_num - box_ht_num;
 
     // Normalize label list and scrollto_list to have at least 7 elements
     norm_title_count   = __0;
@@ -556,7 +568,9 @@
     for ( i = __0; i < title_count; i++ ) {
       title_html_list.push( '<div>' + label_list[ i ] + '</div>' );
     }
-    jquery_map._$head_main_.html( title_html_list.join(__blank));
+    title_html = title_html_list.join( __blank );
+
+    jquery_map._$head_main_.html( title_html );
     $title_list = jquery_map._$head_main_.children( 'div' );
     title_count = $title_list.length;
 
@@ -610,7 +624,7 @@
       _jquery_map_       : jquery_map,
       _scrollto_list_    : content_map._scrollto_list_,
       _is_our_scroll_    : __false,
-      _$h1_list_         : content_map.$h1_list,
+      _$h1_list_         : content_map._$h1_list_,
       _h1_count_         : content_map._h1_count_,
 
       _label_list_       : content_map._label_list_,
@@ -634,11 +648,9 @@
     // Configure handlers
     box_drag_obj = $.makeDragScrollObj({
       _$scroll_box_ : jquery_map._$scroll_box_,
-      _on_stop_fn_  : function () {
-        state_map._is_our_scroll_ = __false;
-        syncToScroll( state_map );
-      },
-      _prop_mode_key_ : '_stop_all_'
+      // TODO: use settings from constructor
+      // _head_ds_arg_map_ and _body_ds_arg_map_
+      _prop_mode_key_ : '_stop_now_'
     });
 
     state_map._box_drag_obj_      = box_drag_obj;
@@ -654,7 +666,7 @@
       changeTitle( state_map, -1 );
       return __false;
     };
-    state_map._on_scroll_box = function ( event_obj ) {
+    state_map._on_scroll_box = function ( /*event_obj*/ ) {
       // TODO: consider throttling; currently ~40ms per event
       syncToScroll( state_map );
     };
@@ -703,9 +715,9 @@
     var $jqcsx_list = this, $stylesheet, invoke_fn;
     if ( stateMap._do_init_ ) {
       $stylesheet = $( 'style#jqscx' );
-      if ( $stylesheet.length < 1 ){
-        $stylesheet = $('<style id="jqcsx">');
-        $stylesheet.text( configMap._style_css_ ).appendTo('head');
+      if ( $stylesheet.length < 1 ) {
+        $stylesheet = $( '<style id="jqcsx">' );
+        $stylesheet.text( configMap._style_css_ ).appendTo( 'head' );
       }
       stateMap._do_init_ = __false;
     }

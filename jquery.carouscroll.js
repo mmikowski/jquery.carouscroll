@@ -319,6 +319,8 @@
     },
     stateMap = { _do_init_ : __true },
 
+    rotateByThree,
+
     makeJqueryMap,
 
     updateScrollMarks,
@@ -333,6 +335,11 @@
   // =================== END MODULE SCOPE VARIABLES ====================
 
   // ===================== BEGIN UTILITY METHODS =======================
+  rotateByThree = function ( list ) {
+    list.unshift( list.pop() );
+    list.unshift( list.pop() );
+    list.unshift( list.pop() );
+  };
   // ====================== END UTILITY METHODS ========================
 
   // ======================= BEGIN DOM METHODS =========================
@@ -562,6 +569,10 @@
     label_list    = norm_label_list;
     scrollto_list = norm_scrollto_list;
     title_count   = norm_title_count;
+
+    // Rotate title and data so first selected title is at the top
+    rotateByThree( label_list    );
+    rotateByThree( scrollto_list );
 
     // Populate titles. Those greater than 6 are hidden
     title_html_list = [];

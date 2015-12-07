@@ -167,10 +167,10 @@
         + 'bottom:0;'
         + '}'
 
+        // consider: 'cursor:ew-resize;'
         + '.jqcsx-_head_main_ {'
         + 'left:0.5rem;'
         + 'right:0.5rem;'
-        + 'cursor:ew-resize;'
         + 'line-height:3rem;'
         + '}'
 

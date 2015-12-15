@@ -55,10 +55,10 @@
  *       // label_list example: [ 'Flopsy', 'Mopsy', 'CottonTail', 'Peter' ]
  *     });
  *
- * Remove carouscroll instances (empties containers):
+ * Remove carouscroll instances - empties containers and removes data:
  *
  *     $collection.carouscroll({
- *       _action_str_ : '_remove_'
+ *       _action_str_ : '_destroy_'
  *     });
  *
  * Please the carouscroll.html for a demonstration of use.
@@ -235,7 +235,7 @@
         + 'position:absolute;'
         + 'top:0;'
         + 'height:3rem;'
-        + 'line-height:3.75rem;'
+        + 'line-height:3.5rem;'
         + 'overflow:hidden;'
         + 'transition:all 0.2s ease;'
         + '}'
@@ -330,6 +330,7 @@
 
     addContent,
     createOne,
+    destroyOne,
     invokeWrapper
     ;
   // =================== END MODULE SCOPE VARIABLES ====================
@@ -359,31 +360,31 @@
     };
   };
 
-  updateScrollMarks = function ( state_map, scroll_num ) {
-    var jquery_map = state_map._jquery_map_;
+  updateScrollMarks = function ( jqcsx_smap, scroll_num ) {
+    var jquery_map = jqcsx_smap._jquery_map_;
 
     jquery_map._$si_top_.toggleClass(
       'jqcsx-_x_active_',
-      ( scroll_num >  state_map._min_scrollnum_ )
+      ( scroll_num >  jqcsx_smap._min_scrollnum_ )
     );
     jquery_map._$si_btm_.toggleClass(
       'jqcsx-_x_active_',
-      ( scroll_num <  state_map._max_scrollnum_ )
+      ( scroll_num <  jqcsx_smap._max_scrollnum_ )
     );
   };
 
   // BEGIN DOM method /changeTitle/
-  changeTitle = function ( state_map, inc_int, do_skip_scroll ) {
+  changeTitle = function ( jqcsx_smap, inc_int, do_skip_scroll ) {
     var
-      jquery_map  = state_map._jquery_map_,
+      jquery_map  = jqcsx_smap._jquery_map_,
 
       $title_list = jquery_map._$title_list_,
       $h1_list    = jquery_map._$h1_list_,
 
-      scrollto_list    = state_map._scrollto_list_,
-      title_count      = state_map._title_count_,
-      h1_count         = state_map._h1_count_,
-      title_offset_int = state_map._title_offset_int_,
+      scrollto_list    = jqcsx_smap._scrollto_list_,
+      title_count      = jqcsx_smap._title_count_,
+      h1_count         = jqcsx_smap._h1_count_,
+      title_offset_int = jqcsx_smap._title_offset_int_,
 
       i, next_int, next_class_str,
       scroll_num, $h1, h1_idx, anim_ms;
@@ -413,10 +414,10 @@
         if ( ! do_skip_scroll ) {
           // Do not animate if first showing or not moving
           anim_ms = inc_int === __0 ? __0 : configMap._anim_scroll_ms_;
-          state_map._is_our_scroll_ = __true;
-          state_map._title_idx_ = i;
+          jqcsx_smap._is_our_scroll_ = __true;
+          jqcsx_smap._title_idx_ = i;
 
-          scrollTheBox( state_map, scroll_num, anim_ms );
+          scrollTheBox( jqcsx_smap, scroll_num, anim_ms );
         }
       }
     }
@@ -428,39 +429,39 @@
       title_offset_int -= title_count;
     }
     while ( title_offset_int < __0 ) { title_offset_int += title_count; }
-    state_map._title_offset_int_ = title_offset_int;
+    jqcsx_smap._title_offset_int_ = title_offset_int;
   };
   // END DOM method /changeTitle/
 
   // BEGIN DOM method /scrollTheBox/
-  scrollTheBox = function ( state_map, scroll_num, anim_ms ) {
-    var $scroll_box = state_map._jquery_map_._$scroll_box_;
+  scrollTheBox = function ( jqcsx_smap, scroll_num, anim_ms ) {
+    var $scroll_box = jqcsx_smap._jquery_map_._$scroll_box_;
 
-    state_map._is_our_scroll_ = __true;
+    jqcsx_smap._is_our_scroll_ = __true;
     $scroll_box.animate(
       { scrollTop : scroll_num },
       anim_ms,
       function () {
         // Remove the "_is_our_scroll_" flag after our scrollTo has completed
-        state_map._is_our_scroll_ = __false;
-        updateScrollMarks( state_map, scroll_num );
+        jqcsx_smap._is_our_scroll_ = __false;
+        updateScrollMarks( jqcsx_smap, scroll_num );
       }
     );
   };
   // END COM method /scrollTheBox/
 
   // BEGIN syncToScroll
-  syncToScroll = function ( state_map ) {
+  syncToScroll = function ( jqcsx_smap ) {
     var
-      jquery_map    = state_map._jquery_map_,
-      scrollto_list = state_map._scrollto_list_,
-      h1_count      = state_map._h1_count_,
-      title_idx     = state_map._title_idx_,
+      jquery_map    = jqcsx_smap._jquery_map_,
+      scrollto_list = jqcsx_smap._scrollto_list_,
+      h1_count      = jqcsx_smap._h1_count_,
+      title_idx     = jqcsx_smap._title_idx_,
       scroll_num    = jquery_map._$scroll_box_.scrollTop(),
       min_delta_num = 999999,
 
       pos_num, delta_num, prelim_idx, i;
-    if ( state_map._is_our_scroll_ ) { return; }
+    if ( jqcsx_smap._is_our_scroll_ ) { return; }
 
     // find closest title position
     for ( i = __0; i < h1_count; i++ ) {
@@ -473,14 +474,14 @@
         prelim_idx    = i;
       }
     }
-    updateScrollMarks( state_map, scroll_num );
+    updateScrollMarks( jqcsx_smap, scroll_num );
 
     // do not do anything if no change
     if ( prelim_idx === title_idx ) { return; }
 
     // update title, WITHOUT scroll-to
-    state_map._title_idx_ = prelim_idx;
-    changeTitle( state_map, title_idx - prelim_idx, __true );
+    jqcsx_smap._title_idx_ = prelim_idx;
+    changeTitle( jqcsx_smap, title_idx - prelim_idx, __true );
   };
   // END syncToScroll
 
@@ -490,7 +491,7 @@
   // ======================= END EVENT HANDLERS ========================
 
   // ====================== BEGIN PUBLIC METHODS =======================
-  // changeOne = function ( $one_div, arg_map, state_map ) {
+  // changeOne = function ( $one_div, arg_map, jqcsx_smap ) {
   // BEGIN addContent
   addContent = function ( arg_map ) {
     var
@@ -603,8 +604,8 @@
   // END addContent
 
   // BEGIN createOne
-  createOne = function ( $one_div, arg_map, in_state_map ) {
-    var state_map, jquery_map, content_map, box_drag_obj;
+  createOne = function ( $one_div, arg_map, in_jqcsx_smap ) {
+    var jqcsx_smap, jquery_map, content_map, box_drag_obj;
 
     // Arg check
     if ( $one_div.length !== __1 ) { return; }
@@ -624,14 +625,15 @@
     });
 
     // Remove previous carouscroll if present
-    if ( in_state_map ) {
-      $one_div.data( 'jqcsx-state-map', __undef );
+    if ( in_jqcsx_smap ) {
+      $one_div.removeData( 'jqcsx-smap' );
+      $one_div.removeAttr( 'jqcsx-smap' );
     }
 
     // Begin create instance
     jquery_map._$h1_list_    = content_map._$h1_list_;
     jquery_map._$title_list_ = content_map._$title_list_;
-    state_map = {
+    jqcsx_smap = {
       _jquery_map_       : jquery_map,
       _scrollto_list_    : content_map._scrollto_list_,
       _is_our_scroll_    : __false,
@@ -646,15 +648,15 @@
       _max_scrollnum_    : content_map._max_scrollnum_,
       _min_scrollnum_    : content_map._min_scrollnum_,
 
-      _box_drag_obj_ : __undef,
-      _on_dragstart_box_  : __undef,
-      _on_dragmove_box_   : __undef,
-      _on_dragend_box_    : __undef
+      _box_drag_obj_     : __undef,
+      _on_dragstart_box_ : __undef,
+      _on_dragmove_box_  : __undef,
+      _on_dragend_box_   : __undef
     };
     // End create instance
 
     // Initialize title
-    changeTitle( state_map, __0 );
+    changeTitle( jqcsx_smap, __0 );
 
     // Configure handlers
     box_drag_obj = $.makeDragScrollObj({
@@ -664,24 +666,24 @@
       _prop_mode_key_ : '_stop_now_'
     });
 
-    state_map._box_drag_obj_      = box_drag_obj;
-    state_map._on_dragstart_box_  = box_drag_obj._onstartHandler_;
-    state_map._on_dragmove_box_   = box_drag_obj._onmoveHandler_;
-    state_map._on_dragend_box_    = box_drag_obj._onendHandler_;
+    jqcsx_smap._box_drag_obj_      = box_drag_obj;
+    jqcsx_smap._on_dragstart_box_  = box_drag_obj._onstartHandler_;
+    jqcsx_smap._on_dragmove_box_   = box_drag_obj._onmoveHandler_;
+    jqcsx_smap._on_dragend_box_    = box_drag_obj._onendHandler_;
 
-    state_map._on_tap_l_ = function ( /*event_obj*/ ) {
-      changeTitle( state_map, 1 );
+    jqcsx_smap._on_tap_l_ = function ( /*event_obj*/ ) {
+      changeTitle( jqcsx_smap, 1 );
       return __false;
     };
-    state_map._on_tap_r_ = function ( /*event_obj*/ ) {
-      changeTitle( state_map, -1 );
+    jqcsx_smap._on_tap_r_ = function ( /*event_obj*/ ) {
+      changeTitle( jqcsx_smap, -1 );
       return __false;
     };
-    state_map._on_scroll_box = function ( /*event_obj*/ ) {
+    jqcsx_smap._on_scroll_box = function ( /*event_obj*/ ) {
       // TODO: consider throttling; currently ~40ms per event
-      syncToScroll( state_map );
+      syncToScroll( jqcsx_smap );
     };
-    state_map._on_tap_box_ = function ( /*event_obj */ ) {
+    jqcsx_smap._on_tap_box_ = function ( /*event_obj */ ) {
       var vxvy_list = box_drag_obj._getVxVyList_();
       box_drag_obj._stopScroll_();
       // If we are moving slow enough, let the click bubble
@@ -693,19 +695,28 @@
     };
 
     // Bind handlers
-    jquery_map._$head_inc_l_.on( 'utap', state_map._on_tap_l_ );
-    jquery_map._$head_inc_r_.on( 'utap', state_map._on_tap_r_ );
+    jquery_map._$head_inc_l_.on( 'utap', jqcsx_smap._on_tap_l_ );
+    jquery_map._$head_inc_r_.on( 'utap', jqcsx_smap._on_tap_r_ );
     jquery_map._$scroll_box_
-      .on( 'udragstart', state_map._on_dragstart_box_ )
-      .on( 'udragmove',  state_map._on_dragmove_box_  )
-      .on( 'udragend',   state_map._on_dragend_box_   )
-      .on( 'utap',       state_map._on_tap_box_       )
-      .on( 'scroll',     state_map._on_scroll_box     );
+      .on( 'udragstart', jqcsx_smap._on_dragstart_box_ )
+      .on( 'udragmove',  jqcsx_smap._on_dragmove_box_  )
+      .on( 'udragend',   jqcsx_smap._on_dragend_box_   )
+      .on( 'utap',       jqcsx_smap._on_tap_box_       )
+      .on( 'scroll',     jqcsx_smap._on_scroll_box     );
 
     // Save state with DOM element
-    $one_div.data( 'jqcsx-state-map',state_map );
+    $one_div.data( 'jqcsx-smap',jqcsx_smap );
   };
   // END createOne
+  
+  // BEGIN destroyOne
+  destroyOne = function ( $one_div, arg_map, in_jqcsx_smap ) {
+    // Remove all data and content
+    $one_div.removeClass( 'jqcsx' ).empty();
+    $one_div.removeData( 'jqcsx-smap' );
+    $one_div.removeAttr( 'jqcsx-smap' );
+  };
+  // END destroyOne
 
   // BEGIN invokeWrapper
   // Invokes a function for each DOM element in a collection
@@ -715,9 +726,9 @@
     $jqcsx_list.each( function ( idx ) {
       var
         $one_div  = $jqcsx_list.eq( idx ),
-        state_map = $one_div.data( 'jqcsx-state-map' );
+        jqcsx_smap = $one_div.data( 'jqcsx-smap' );
 
-      invoke_fn( $one_div, arg_map, state_map );
+      invoke_fn( $one_div, arg_map, jqcsx_smap );
     });
   };
   // END invokeWrapper
@@ -735,9 +746,9 @@
 
     // Dispatch by action
     switch ( arg_map._action_str_ ) {
-      case '_create_' : invoke_fn = createOne; break;
-      case '_change_' : invoke_fn = null; break;
-      default         : invoke_fn = createOne; break;
+      case '_create_'  : invoke_fn = createOne;  break;
+      case '_destroy_' : invoke_fn = destroyOne; break;
+      default          : invoke_fn = createOne;  break;
     }
     if ( invoke_fn ) {
       invokeWrapper( $jqcsx_list, arg_map, invoke_fn );

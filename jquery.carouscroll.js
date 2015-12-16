@@ -108,7 +108,7 @@
     __true  = true,
     __undef = ( function () { return; }() ), // jslint hack for undef
 
-    configMap = {
+    topCmap = {
       _amin_scroll_ms_ : 200,
 
       _title_midpoint_idx_ : 3,
@@ -234,8 +234,8 @@
         + 'display:none;'
         + 'position:absolute;'
         + 'top:0;'
-        + 'height:3rem;'
-        + 'line-height:3.5rem;'
+        + 'height:3.5rem;'
+        + 'line-height:4rem;'
         + 'overflow:hidden;'
         + 'transition:all 0.2s ease;'
         + '}'
@@ -317,7 +317,7 @@
         + 'color:#fff;'
         + '}'
     },
-    stateMap = { _do_init_ : __true },
+    topSmap = { _do_init_ : __true },
 
     rotateByThree,
 
@@ -401,7 +401,7 @@
       $title_list.eq( i ).prop( 'className', next_class_str );
 
       // Scroll to element on title
-      if ( next_int === configMap._title_midpoint_idx_ ) {
+      if ( next_int === topCmap._title_midpoint_idx_ ) {
         scroll_num = scrollto_list[ i ];
 
         h1_idx = i;
@@ -413,7 +413,7 @@
 
         if ( ! do_skip_scroll ) {
           // Do not animate if first showing or not moving
-          anim_ms = inc_int === __0 ? __0 : configMap._anim_scroll_ms_;
+          anim_ms = inc_int === __0 ? __0 : topCmap._anim_scroll_ms_;
           jqcsx_smap._is_our_scroll_ = __true;
           jqcsx_smap._title_idx_ = i;
 
@@ -562,7 +562,7 @@
     norm_title_count   = __0;
     norm_label_list    = [];
     norm_scrollto_list = [];
-    while ( norm_title_count < configMap._title_total_count_ ) {
+    while ( norm_title_count < topCmap._title_total_count_ ) {
       norm_label_list     = norm_label_list.concat( label_list );
       norm_scrollto_list  = norm_scrollto_list.concat( scrollto_list );
       norm_title_count    = norm_label_list.length;
@@ -615,7 +615,7 @@
     }
 
     // populate content and cache jquery elements
-    $one_div.addClass( 'jqcsx' ).html( configMap._tmplt_html_ );
+    $one_div.addClass( 'jqcsx' ).html( topCmap._tmplt_html_ );
     jquery_map = makeJqueryMap( $one_div );
 
     // Add content and set title
@@ -688,7 +688,7 @@
       box_drag_obj._stopScroll_();
       // If we are moving slow enough, let the click bubble
       if (
-        vxvy_list[__0 ] + vxvy_list[__1] < configMap._stop_velocity_num_
+        vxvy_list[__0 ] + vxvy_list[__1] < topCmap._stop_velocity_num_
       ) { return __false; }
       // Do stuff here
       return __false;
@@ -735,13 +735,13 @@
 
   $.fn.carouscroll = function ( arg_map ) {
     var $jqcsx_list = this, $stylesheet, invoke_fn;
-    if ( stateMap._do_init_ ) {
+    if ( topSmap._do_init_ ) {
       $stylesheet = $( 'style#jqscx' );
       if ( $stylesheet.length < 1 ) {
         $stylesheet = $( '<style id="jqcsx">' );
-        $stylesheet.text( configMap._style_css_ ).appendTo( 'head' );
+        $stylesheet.text( topCmap._style_css_ ).appendTo( 'head' );
       }
-      stateMap._do_init_ = __false;
+      topSmap._do_init_ = __false;
     }
 
     // Dispatch by action

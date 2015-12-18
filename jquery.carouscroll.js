@@ -176,10 +176,11 @@
 
         + '.jqcsx-_head_inc_l_,'
         + '.jqcsx-_head_inc_r_ {'
-        + 'width:1.5rem;'
+        + 'width:45%;'
         + 'font-size:1.5rem;'
         + 'text-align:center;'
         + 'cursor:pointer;'
+        + 'z-index:4;'
         + '}'
 
         + '.jqcsx-_head_inc_l_ { left:0; }'

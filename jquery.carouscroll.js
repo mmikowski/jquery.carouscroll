@@ -634,8 +634,7 @@
 
     // Remove previous carouscroll if present
     if ( in_jqcsx_smap ) {
-      $one_div.removeData( 'jqcsx-smap' );
-      $one_div.removeAttr( 'jqcsx-smap' );
+      destroyOne( $one_div, arg_map, in_jqcsx_smap );
     }
 
     // Begin create instance
@@ -713,16 +712,20 @@
       .on( 'scroll',     jqcsx_smap._on_scroll_box     );
 
     // Save state with DOM element
-    $one_div.data( 'jqcsx-smap',jqcsx_smap );
+    $one_div.data( 'jqcsx-_smap_',jqcsx_smap );
   };
   // END createOne
   
   // BEGIN destroyOne
   destroyOne = function ( $one_div, arg_map, in_jqcsx_smap ) {
     // Remove all data and content
-    $one_div.removeClass( 'jqcsx' ).empty();
-    $one_div.removeData( 'jqcsx-smap' );
-    $one_div.removeAttr( 'jqcsx-smap' );
+    $one_div
+      .off( 'udragstart,udragmove,udragend,utap,scroll' )
+      .removeClass( 'jqcsx' )
+      .removeData( 'jqcsx-_smap_' )
+      .removeAttr( 'jqcsx-_smap_' )
+      .empty()
+      ;
   };
   // END destroyOne
 
@@ -734,7 +737,7 @@
     $jqcsx_list.each( function ( idx ) {
       var
         $one_div  = $jqcsx_list.eq( idx ),
-        jqcsx_smap = $one_div.data( 'jqcsx-smap' );
+        jqcsx_smap = $one_div.data( 'jqcsx-_smap_' );
 
       invoke_fn( $one_div, arg_map, jqcsx_smap );
     });

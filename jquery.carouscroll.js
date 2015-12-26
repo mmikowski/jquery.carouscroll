@@ -622,6 +622,11 @@
       return;
     }
 
+    // Remove previous carouscroll if present
+    if ( in_jqcsx_smap ) {
+      destroyOne( $one_div, arg_map, in_jqcsx_smap );
+    }
+
     // populate content and cache jquery elements
     $one_div.addClass( 'jqcsx' ).html( topCmap._tmplt_html_ );
     jquery_map = makeJqueryMap( $one_div );
@@ -632,10 +637,6 @@
       _content_html_ : arg_map._content_html_ || __blank
     });
 
-    // Remove previous carouscroll if present
-    if ( in_jqcsx_smap ) {
-      destroyOne( $one_div, arg_map, in_jqcsx_smap );
-    }
 
     // Begin create instance
     jquery_map._$h1_list_    = content_map._$h1_list_;

@@ -35,6 +35,16 @@
     overflow-y : hidden;
     font       : normal 16px Arial, Helvetica, sans-serif;
   }
+  .scroll_box {
+    position   : absolute;
+    top        : 0;
+    left       : 0;
+    right      : 0;
+    bottom     : 0;
+    overflow-x : hidden;
+    overflow-y : auto;
+    font       : normal 16px Arial, Helvetica, sans-serif;
+  }
 
   .test_div {
     float    : left;
@@ -62,8 +72,15 @@
   $(function () {
     'use strict';
     var
+      $scroll_box   = $( '.scroll_box' ),
+      box_drag_obj = $.makeDragScrollObj({
+        _$scroll_box_   : $scroll_box,
+        _prop_mode_key_ : '_stop_now_'
+      }),
+
       $group1 = $( '.test_div.group_1' ),
       $group2 = $( '.test_div.group_2' ),
+
       content1_html = ''
         + '<h1>Software</h1>'
         + '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, '
@@ -217,6 +234,12 @@
         + 'quaerat voluptatem.</p>'
       ;
 
+    $scroll_box
+      .on( 'udragstart', box_drag_obj._onstartHandler_ )
+      .on( 'udragmove',  box_drag_obj._onmoveHandler_  )
+      .on( 'udragend',   box_drag_obj._onendHandler_   )
+      ;
+
     $group1.carouscroll({
       _content_html_ : content1_html
     });
@@ -228,11 +251,77 @@
   </script>
 </head>
 <body>
+<div class="scroll_box">
+
   <div class="test_div group_1"></div>
   <div class="test_div group_2"></div>
   <div class="test_div group_1"></div>
   <div class="test_div group_2"></div>
   <div class="test_div group_1"></div>
   <div class="test_div group_2"></div>
+
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+  
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+  <div class="test_div group_1"></div>
+  <div class="test_div group_2"></div>
+</div>
 </body>
 </html>

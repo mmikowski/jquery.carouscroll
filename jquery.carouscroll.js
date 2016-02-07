@@ -176,10 +176,11 @@
 
         + '.jqcsx-_head_inc_l_,'
         + '.jqcsx-_head_inc_r_ {'
-        + 'width:1.5rem;'
+        + 'width:45%;'
         + 'font-size:1.5rem;'
         + 'text-align:center;'
         + 'cursor:pointer;'
+        + 'z-index:4;'
         + '}'
 
         + '.jqcsx-_head_inc_l_ { left:0; }'
@@ -319,6 +320,9 @@
     },
     topSmap = { _do_init_ : __true },
 
+    protoUnshift = Array.prototype.unshift,
+    protoPop     = Array.prototype.pop,
+    
     rotateByThree,
 
     makeJqueryMap,
@@ -337,9 +341,11 @@
 
   // ===================== BEGIN UTILITY METHODS =======================
   rotateByThree = function ( list ) {
-    list.unshift( list.pop() );
-    list.unshift( list.pop() );
-    list.unshift( list.pop() );
+    // The following is the same as list.unshift( list.pop() )
+    // but works on all list-like entities
+    protoUnshift.call( list, protoPop.call( list ));
+    protoUnshift.call( list, protoPop.call( list ));
+    protoUnshift.call( list, protoPop.call( list ));
   };
   // ====================== END UTILITY METHODS ========================
 
@@ -389,7 +395,7 @@
       i, next_int, next_class_str,
       scroll_num, $h1, h1_idx, anim_ms;
 
-    // BEGIN _UPDATE_TITLE_
+    // Begin loop _UPDATE_TITLE_
     for ( i = __0; i < title_count; i++ ) {
       // get next class string
       next_int = i + title_offset_int + inc_int;
@@ -421,7 +427,7 @@
         }
       }
     }
-    // END _UPDATE_TITLE_
+    // End loop _UPDATE_TITLE_
 
     // Increment offset for next round
     title_offset_int += inc_int;
@@ -571,9 +577,11 @@
     scrollto_list = norm_scrollto_list;
     title_count   = norm_title_count;
 
-    // Rotate title and data so first selected title is at the top
+    // Rotate selected label, scrollto list, and header list 
+    // so that the correct title is shown at the top
     rotateByThree( label_list    );
     rotateByThree( scrollto_list );
+    rotateByThree( $h1_list      );
 
     // Populate titles. Those greater than 6 are hidden
     title_html_list = [];
@@ -614,6 +622,11 @@
       return;
     }
 
+    // Remove previous carouscroll if present
+    if ( in_jqcsx_smap ) {
+      destroyOne( $one_div, arg_map, in_jqcsx_smap );
+    }
+
     // populate content and cache jquery elements
     $one_div.addClass( 'jqcsx' ).html( topCmap._tmplt_html_ );
     jquery_map = makeJqueryMap( $one_div );
@@ -624,11 +637,6 @@
       _content_html_ : arg_map._content_html_ || __blank
     });
 
-    // Remove previous carouscroll if present
-    if ( in_jqcsx_smap ) {
-      $one_div.removeData( 'jqcsx-smap' );
-      $one_div.removeAttr( 'jqcsx-smap' );
-    }
 
     // Begin create instance
     jquery_map._$h1_list_    = content_map._$h1_list_;
@@ -705,16 +713,20 @@
       .on( 'scroll',     jqcsx_smap._on_scroll_box     );
 
     // Save state with DOM element
-    $one_div.data( 'jqcsx-smap',jqcsx_smap );
+    $one_div.data( 'jqcsx-_smap_',jqcsx_smap );
   };
   // END createOne
   
   // BEGIN destroyOne
   destroyOne = function ( $one_div, arg_map, in_jqcsx_smap ) {
     // Remove all data and content
-    $one_div.removeClass( 'jqcsx' ).empty();
-    $one_div.removeData( 'jqcsx-smap' );
-    $one_div.removeAttr( 'jqcsx-smap' );
+    $one_div
+      .off( 'udragstart,udragmove,udragend,utap,scroll' )
+      .removeClass( 'jqcsx' )
+      .removeData( 'jqcsx-_smap_' )
+      .removeAttr( 'jqcsx-_smap_' )
+      .empty()
+      ;
   };
   // END destroyOne
 
@@ -726,7 +738,7 @@
     $jqcsx_list.each( function ( idx ) {
       var
         $one_div  = $jqcsx_list.eq( idx ),
-        jqcsx_smap = $one_div.data( 'jqcsx-smap' );
+        jqcsx_smap = $one_div.data( 'jqcsx-_smap_' );
 
       invoke_fn( $one_div, arg_map, jqcsx_smap );
     });

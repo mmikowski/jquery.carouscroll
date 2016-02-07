@@ -1,6 +1,6 @@
 {
   "name": "jquery.carouscroll.js",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description":"CarouScroll synchronizes the titles in a horizontal word-cloud Carousel with the associated headline positions in vertical scrolling content.  When the user scrolls the vertical content, the word-cloud carousel is adjusted so the correct title is selected.  Conversely, the user may browse through the word-cloud Carousel, in which case the scroll position of the content updates to match the selected title.",
   "keywords": [
     "jquery-plugin",
